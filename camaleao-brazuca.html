@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Camaleão Brazuca</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --green:  #1b6b3a;
+  --green2: #25a05a;
+  --yellow: #f5c800;
+  --orange: #e8720c;
+  --red:    #d62839;
+  --teal:   #0a9396;
+  --cream:  #fffdf4;
+  --dark:   #1a1a2e;
+  --card-w: 63mm;
+  --card-h: 88mm;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#eef4ee;color:var(--dark);}
+
+/* ── UI ── */
+.ui{max-width:1000px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+.logo-wrap{text-align:center;margin-bottom:2rem;}
+.logo{display:inline-flex;align-items:center;gap:.7rem;background:var(--green);color:#fff;
+  padding:.6rem 1.6rem;border-radius:60px;box-shadow:0 4px 20px rgba(27,107,58,.35);}
+.logo-icon{font-size:2.2rem;}
+.logo-name{font-family:'Baloo 2',cursive;font-size:1.9rem;font-weight:900;line-height:1;}
+.logo-sub{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:.75;}
+.subtitle{color:#555;font-size:.9rem;margin-top:.75rem;line-height:1.6;}
+
+.tabs{display:flex;gap:.4rem;margin-bottom:1.5rem;border-bottom:2px solid #d0e4d0;padding-bottom:.5rem;flex-wrap:wrap;}
+.tab{font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:700;padding:.45rem 1.1rem;
+  border-radius:8px 8px 0 0;border:none;cursor:pointer;background:transparent;color:#888;transition:.15s;}
+.tab.active{background:var(--green);color:#fff;}
+.tab:hover:not(.active){background:#e0ede0;}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+
+.btn{font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:800;padding:.5rem 1.2rem;
+  border-radius:50px;border:none;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:.35rem;}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
+.btn-green{background:var(--green);color:#fff;}
+.btn-yellow{background:var(--yellow);color:var(--dark);}
+.btn-red{background:var(--red);color:#fff;}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-gray{background:#ccc;color:#444;}
+.controls{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.4rem;}
+
+/* Toggle buttons — estado visual claro */
+.toggle-btn{transition:background .2s,color .2s,box-shadow .2s,transform .15s;}
+.toggle-on{background:var(--green);color:#fff;box-shadow:0 2px 8px rgba(27,107,58,.4);}
+.toggle-on::before{content:'✓ ';}
+.toggle-off{background:#d0d0d0;color:#888;box-shadow:none;text-decoration:line-through;opacity:.7;}
+.toggle-off::before{content:'✗ ';}
+
+/* Verso azul — cartas de tópico */
+.back-card-blue{background:linear-gradient(145deg,#002776,#001a55);border:1.5px solid #001040;}
+.back-card-blue .back-bg{position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.06) 0%,transparent 60%),
+             radial-gradient(circle at 70% 70%,rgba(245,200,0,.09) 0%,transparent 60%);}
+.back-card-blue .back-inner{position:absolute;inset:5px;border:1.5px solid rgba(255,255,255,.18);border-radius:4px;}
+.back-card-blue .back-content{position:relative;z-index:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;height:100%;text-align:center;padding:1rem;}
+.back-card-blue .back-emoji{font-size:2.4rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.4));margin-bottom:.35rem;}
+.back-card-blue .back-title{font-family:'Baloo 2',cursive;font-size:.88rem;font-weight:900;color:#fff;line-height:1.1;}
+.back-card-blue .back-title .hl{color:var(--yellow);font-size:1rem;display:block;}
+.back-card-blue .back-dots{display:flex;gap:3px;margin-top:.5rem;}
+.back-card-blue .back-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.3);}
+.back-card-blue .back-dot.y{background:var(--yellow);}
+
+.stitle{font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:800;color:var(--green);
+  margin-bottom:1rem;display:flex;align-items:center;gap:.4rem;}
+.infobox{background:#e8f5e9;border:1px solid #b2dfcc;border-radius:10px;
+  padding:.75rem 1rem;font-size:.82rem;color:#1b5e20;line-height:1.6;margin-bottom:1.5rem;}
+
+.card-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:.9rem;margin-bottom:2rem;}
+.cli{background:#fff;border-radius:12px;padding:1rem;border:2px solid #d8ead8;transition:.2s;}
+.cli:hover{border-color:var(--green2);}
+.cli-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}
+.cli-num{font-size:.68rem;font-weight:800;color:#fff;background:var(--green);padding:.12rem .4rem;border-radius:20px;}
+.cli-title{font-family:'Baloo 2',cursive;font-size:.98rem;font-weight:800;flex:1;margin:0 .5rem;}
+.cli-acts{display:flex;gap:.25rem;}
+.ibtn{background:none;border:none;cursor:pointer;font-size:.95rem;padding:.18rem .3rem;border-radius:6px;transition:.15s;}
+.ibtn:hover{background:#f0f0f0;}
+.tags{display:flex;flex-wrap:wrap;gap:.25rem;}
+.tag{font-size:.68rem;font-weight:700;background:#f0faf0;color:var(--green);border:1px solid #b8ddb8;padding:.1rem .4rem;border-radius:20px;}
+
+.form-box{background:#fff;border-radius:14px;padding:1.4rem;border:2px dashed var(--green2);margin-bottom:2rem;}
+.frow{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:.75rem;align-items:flex-start;}
+.fg{display:flex;flex-direction:column;gap:.3rem;flex:1;min-width:140px;}
+label{font-size:.78rem;font-weight:700;color:#555;}
+input,textarea,select{font-family:'Nunito',sans-serif;font-size:.88rem;padding:.45rem .7rem;
+  border:2px solid #d8ead8;border-radius:9px;outline:none;transition:.2s;width:100%;}
+input:focus,textarea:focus{border-color:var(--green2);}
+textarea{resize:vertical;min-height:70px;}
+.json-editor{width:100%;min-height:320px;font-family:monospace;font-size:.78rem;
+  border:2px solid #d8ead8;border-radius:10px;padding:.75rem;outline:none;}
+.json-editor:focus{border-color:var(--green2);}
+
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;
+  align-items:center;justify-content:center;padding:1rem;}
+.overlay.open{display:flex;}
+.modal{background:#fff;border-radius:16px;padding:1.5rem;max-width:580px;width:100%;max-height:90vh;overflow-y:auto;}
+.modal-title{font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:800;color:var(--green);margin-bottom:1rem;}
+.words-grid{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin-bottom:1rem;}
+.words-grid input{font-size:.82rem;padding:.38rem .55rem;}
+.modal-acts{display:flex;gap:.5rem;justify-content:flex-end;margin-top:.5rem;}
+
+/* ── PRINT CARDS ── */
+.preview-grid{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-start;}
+.section-label{width:100%;font-family:'Baloo 2',cursive;font-size:.9rem;font-weight:800;
+  color:var(--green);padding:.4rem 0;margin-top:.6rem;}
+
+.card-base{width:var(--card-w);height:var(--card-h);border-radius:7px;overflow:hidden;
+  position:relative;display:flex;flex-direction:column;
+  page-break-inside:avoid;break-inside:avoid;flex-shrink:0;font-family:'Nunito',sans-serif;}
+
+/* Topic card */
+.topic-card{background:var(--cream);border:1.5px solid #bbb;}
+.tc-topband{height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tc-topband span{font-size:.52rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#fff;}
+.tc-head{padding:3px 6px 2px;text-align:center;flex-shrink:0;}
+.tc-num{font-size:.55rem;font-weight:900;letter-spacing:1px;text-transform:uppercase;opacity:.85;}
+.tc-title{font-family:'Baloo 2',cursive;font-size:.75rem;font-weight:900;line-height:1.1;color:var(--dark);}
+.tc-divider{height:2px;margin:0 7px;border-radius:2px;flex-shrink:0;}
+.tc-grid{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(8,1fr);padding:3px 4px;gap:2px;background:rgba(0,0,0,.04);border-radius:3px;}
+.tc-cell{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;border-radius:5px;padding:2px 3px 2px 3px;
+  background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.08);
+  overflow:hidden;
+}
+.cc-n{
+  position:absolute;top:1px;left:3px;
+  font-size:.48rem;font-weight:900;line-height:1;opacity:.75;
+  font-family:'Baloo 2',cursive;
+}
+.cc-w{
+  font-size:.54rem;font-weight:800;line-height:1.2;
+  text-align:center;width:100%;
+  white-space:normal;word-break:break-word;overflow:hidden;
+  padding:0 2px;margin-top:4px;
+  font-family:'Baloo 2',cursive;
+  color:var(--dark);
+}
+.tc-botband{height:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tc-botband span{font-size:.4rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#fff;opacity:.85;}
+
+/* themes */
+.t0{--tc:#1b6b3a;} .t1{--tc:#e07b00;} .t2{--tc:#1d6fa4;}
+.t3{--tc:#d62839;} .t4{--tc:#6a0572;} .t5{--tc:#0a9396;}
+.t6{--tc:#b5590a;} .t7{--tc:#2d6a4f;}
+.topic-card .tc-topband,.topic-card .tc-divider,.topic-card .tc-botband{background:var(--tc);}
+.topic-card .tc-num,.topic-card .cc-n{color:var(--tc);}
+.topic-card .tc-cell{border-left:2.5px solid var(--tc);}
+
+/* Code card */
+.code-card{background:#1a2a1a;border:1.5px solid #0a1a0a;}
+.code-topband{height:18px;background:#0d1f0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.code-topband span{font-size:.5rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#a8d8a8;}
+.code-header{padding:3px 6px 2px;flex-shrink:0;}
+.code-title{font-family:'Baloo 2',cursive;font-size:.65rem;font-weight:900;color:#a8d8a8;line-height:1.1;}
+.code-sub{font-size:.42rem;font-weight:700;color:#6aaa6a;margin-top:1px;line-height:1.4;}
+.code-grid-wrap{flex:1;padding:1px 4px 1px 3px;display:flex;flex-direction:column;gap:0px;}
+.code-col-nums{display:flex;padding-left:9px;margin-bottom:1px;}
+.code-col-nums span{flex:1;text-align:center;font-size:.32rem;font-weight:800;color:#5a8a5a;font-family:'Baloo 2',cursive;}
+.code-row{display:flex;gap:1px;flex:1;align-items:stretch;}
+.code-row-num{font-size:.32rem;font-weight:800;color:#5a8a5a;font-family:'Baloo 2',cursive;
+  width:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.code-cell{flex:1;display:flex;align-items:center;justify-content:center;border-radius:1px;
+  font-size:.36rem;font-weight:900;font-family:'Baloo 2',cursive;color:#fff;}
+
+.code-botband{height:13px;background:#0d1f0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.code-botband span{font-size:.38rem;font-weight:700;color:#6aaa6a;letter-spacing:.5px;}
+
+/* Back card — identical for ALL cards */
+.back-card{background:linear-gradient(145deg,#1b6b3a,#0d3d20);border:1.5px solid #0a2a15;}
+.back-inner{position:absolute;inset:5px;border:1.5px solid rgba(255,255,255,.15);border-radius:4px;pointer-events:none;}
+.back-bg{position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.06) 0%,transparent 60%),
+             radial-gradient(circle at 70% 70%,rgba(245,200,0,.07) 0%,transparent 60%);}
+.back-content{position:relative;z-index:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;height:100%;text-align:center;padding:1rem;}
+.back-emoji{font-size:2.4rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.4));margin-bottom:.35rem;}
+.back-title{font-family:'Baloo 2',cursive;font-size:.88rem;font-weight:900;color:#fff;line-height:1.1;}
+.back-title .hl{color:var(--yellow);font-size:1rem;display:block;}
+.back-dots{display:flex;gap:3px;margin-top:.5rem;}
+.back-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.3);}
+.back-dot.y{background:var(--yellow);}
+
+/* Rules card */
+.rules-card{background:#fffdf4;border:1.5px solid #bbb;}
+.rules-topband{height:18px;background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rules-topband span{font-size:.52rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#fff;}
+.rules-body{flex:1;padding:4px 6px;overflow:hidden;}
+.rules-maintitle{font-family:'Baloo 2',cursive;font-size:.72rem;font-weight:900;color:var(--orange);margin-bottom:3px;}
+.rules-sec{margin-bottom:3px;}
+.rules-sec-title{font-size:.44rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--green);margin-bottom:1px;}
+.rules-sec-text{font-size:.41rem;font-weight:600;color:#333;line-height:1.55;}
+.rules-scores{display:flex;gap:2px;margin-top:2px;flex-wrap:wrap;}
+.rules-score-item{background:#f0f8f0;border-radius:3px;padding:2px 3px;font-size:.37rem;
+  font-weight:700;color:var(--green);line-height:1.4;text-align:center;flex:1;min-width:0;}
+.rules-botband{height:13px;background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rules-botband span{font-size:.4rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#fff;opacity:.9;}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  body{background:#fff;}
+  .ui>*:not(#tab-imprimir){display:none!important;}
+  #tab-imprimir{display:block!important;}
+  .controls,.stitle,.infobox{display:none!important;}
+  .section-label{display:none!important;}
+  .preview-grid{gap:3mm;padding:0;}
+  @page{size:A4;margin:8mm;}
+}
+</style>
+</head>
+<body>
+<div class="ui">
+
+  <div class="logo-wrap">
+    <div class="logo">
+      <span class="logo-icon">🦎</span>
+      <div>
+        <div class="logo-name">Camaleão Brazuca</div>
+        <div class="logo-sub">Jogo de dedução social</div>
+      </div>
+    </div>
+    <p class="subtitle">Edite tópicos e regras, depois imprima as cartas prontas para corte.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('topicos')">📋 Tópicos</button>
+    <button class="tab" onclick="switchTab('regras')">📖 Regras</button>
+    <button class="tab" onclick="switchTab('json')">🛠️ Editor JSON</button>
+    <button class="tab" onclick="switchTab('imprimir')">🖨️ Imprimir</button>
+  </div>
+
+  <!-- TÓPICOS -->
+  <div id="tab-topicos" class="tab-panel active">
+    <div class="stitle">📋 Cartas de Tópico (<span id="card-count">0</span>)</div>
+    <div class="infobox">✏️ Clique em <strong>Editar</strong> para alterar um tópico ou suas palavras. Use <strong>Editor JSON</strong> para edições em massa.</div>
+    <div class="controls">
+      <button class="btn btn-green" onclick="openAddModal()">➕ Nova Carta</button>
+      <button class="btn btn-yellow" onclick="exportJSON()">💾 Exportar JSON</button>
+    </div>
+    <div class="card-list" id="card-list"></div>
+  </div>
+
+  <!-- REGRAS -->
+  <div id="tab-regras" class="tab-panel">
+    <div class="stitle">📖 Regras do Jogo</div>
+    <div class="infobox">Edite o texto de cada campo. Estas informações aparecem na <strong>carta de regras</strong> impressa.</div>
+    <div class="form-box" id="rules-form"></div>
+    <div class="controls">
+      <button class="btn btn-green" onclick="saveRules()">💾 Salvar Regras</button>
+      <button class="btn btn-yellow" onclick="exportJSON()">💾 Exportar JSON</button>
+    </div>
+  </div>
+
+  <!-- JSON -->
+  <div id="tab-json" class="tab-panel">
+    <div class="stitle">🛠️ Editor JSON</div>
+    <div class="infobox">Edite todos os dados diretamente. Clique em <strong>Aplicar</strong> para confirmar. Use <strong>Exportar</strong> para salvar um backup.</div>
+    <div class="controls">
+      <button class="btn btn-green" onclick="applyJSON()">✅ Aplicar JSON</button>
+      <button class="btn btn-yellow" onclick="exportJSON()">💾 Exportar .json</button>
+      <button class="btn btn-teal" onclick="refreshJSONEditor()">🔄 Atualizar Editor</button>
+      <button class="btn btn-gray" onclick="resetToDefault()">↩️ Restaurar Padrão</button>
+    </div>
+    <textarea class="json-editor" id="json-editor" spellcheck="false"></textarea>
+  </div>
+
+  <!-- IMPRIMIR -->
+  <div id="tab-imprimir" class="tab-panel">
+    <div class="stitle">🖨️ Visualizar & Imprimir</div>
+    <div class="controls">
+      <button class="btn btn-green" onclick="window.print()">🖨️ Imprimir / PDF</button>
+      <button class="btn toggle-btn toggle-on" id="tog-topics" onclick="toggleSection('topics')">📋 Tópicos</button>
+      <button class="btn toggle-btn toggle-on" id="tog-codes" onclick="toggleSection('codes')">🔢 Códigos</button>
+      <button class="btn toggle-btn toggle-off" id="tog-backs" onclick="toggleSection('backs')">🔄 Versos</button>
+      <button class="btn toggle-btn toggle-on" id="tog-rules" onclick="toggleSection('rules')">📖 Regras</button>
+    </div>
+    <div class="infobox">
+      💡 Botões <strong style="color:#1b6b3a;">verdes ✓</strong> = seção visível &nbsp;|&nbsp; Botões <strong style="color:#888;">acinzentados ✗</strong> = oculto. Imprima versos separadamente para frente/verso.
+    </div>
+    <div class="preview-grid" id="preview-grid"></div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="edit-overlay">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">✏️ Editar Carta</div>
+    <div class="frow">
+      <div class="fg" style="max-width:80px;"><label>Nº</label><input type="number" id="e-id" min="1"/></div>
+      <div class="fg"><label>Tópico</label><input type="text" id="e-topic"/></div>
+    </div>
+    <label style="font-size:.78rem;font-weight:700;color:#555;display:block;margin-bottom:.4rem;">16 Palavras</label>
+    <div class="words-grid" id="e-words"></div>
+    <div class="modal-acts">
+      <button class="btn btn-gray" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-green" onclick="saveModal()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   DEFAULT DATA
+══════════════════════════════════════ */
+const DEFAULT_DATA = {
+  cards: [
+    {id:1,topico:"Comidas Brasileiras",palavras:["Feijoada","Coxinha","Pão de queijo","Brigadeiro","Tapioca","Churrasco","Acarajé","Escondidinho","Bolinho de bacalhau","Empadão","Arroz carreteiro","Pirarucu","Torta capixaba","Frango com quiabo","Barreado","Sarapatel"]},
+    {id:2,topico:"Frutas Tropicais",palavras:["Manga","Maracujá","Açaí","Jaca","Abacaxi","Caju","Goiaba","Pitanga","Jabuticaba","Carambola","Graviola","Cupuaçu","Umbu","Cajá","Tamarindo","Seriguela"]},
+    {id:3,topico:"Doces & Sobremesas",palavras:["Pudim","Brigadeiro","Pé de moleque","Arroz doce","Canjica","Cocada","Paçoca","Beijinho","Curau","Bolo de cenoura","Torta de limão","Sorvete","Mousse de maracujá","Quindim","Cajuzinho","Olho de sogra"]},
+    {id:4,topico:"Bebidas",palavras:["Caipirinha","Guaraná","Café","Chimarrão","Água de coco","Caldo de cana","Quentão","Mate","Vitamina","Cerveja","Cachaça","Licor de jenipapo","Suco de açaí","Refrigerante","Vinho","Leite"]},
+    {id:5,topico:"Fast Food",palavras:["Hamburguer","Coxinha","Pastel","Esfirra","Churros","Hot dog","Pizza","Tapioca","Kibe","Crepe","Batata frita","Nuggets","Wrap","Frango frito","Cachorro-quente","Espetinho"]},
+    {id:6,topico:"Esportes Brasileiros",palavras:["Futebol","Vôlei","Jiu-jitsu","Capoeira","Futsal","Surfe","Automobilismo","Natação","Tênis","Basquete","Handebol","Skate","MMA","Judô","Atletismo","Hipismo"]},
+    {id:7,topico:"Jogadores de Futebol",palavras:["Pelé","Ronaldo (Fenômeno)","Ronaldinho Gaúcho","Neymar","Romário","Bebeto","Kaká","Zico","Roberto Carlos","Rivaldo","Garrincha","Cafu","Adriano","Sócrates","Taffarel","Dida"]},
+    {id:8,topico:"Times de Futebol",palavras:["Flamengo","Corinthians","Palmeiras","São Paulo","Santos","Grêmio","Internacional","Cruzeiro","Atlético-MG","Vasco","Botafogo","Fluminense","Bahia","Sport","Fortaleza","Ceará"]},
+    {id:9,topico:"Jogos de Tabuleiro",palavras:["Xadrez","Banco Imobiliário","Uno","War","Dama","Dominó","Truco","Buraco","Canastra","Pife","Perfil","Stop","Detetive","Palavras Cruzadas","Baralho","Sudoku"]},
+    {id:10,topico:"Brincadeiras de Infância",palavras:["Pular corda","Amarelinha","Esconde-esconde","Pega Pega","Bola de gude","Pipa","Queimada","Cabo de guerra","Ciranda","Estátua","Batata quente","Cadeira musical","Passa anel","Coelhinho sai da toca","Peão","Polícia e ladrão"]},
+    {id:11,topico:"Gêneros Musicais",palavras:["Samba","Forró","Axé","Pagode","Funk","MPB","Sertanejo","Bossa nova","Baião","Frevo","Maracatu","Tropicália","Rock brasileiro","Reggae","Rap","Gospel"]},
+    {id:12,topico:"Artistas Brasileiros",palavras:["Roberto Carlos","Ivete Sangalo","Anitta","Caetano Veloso","Gilberto Gil","Chico Buarque","Tim Maia","Elis Regina","Xuxa","Luiz Gonzaga","Jorge Ben Jor","Zeca Pagodinho","Alceu Valença","Djavan","Marisa Monte","Fagner"]},
+    {id:13,topico:"Novelas Brasileiras",palavras:["O Clone","Pantanal","Roque Santeiro","Avenida Brasil","Vale Tudo","Escrava Isaura","Senhora do Destino","Mulheres Apaixonadas","O Rei do Gado","Renascer","Tieta","Gabriela","A Favorita","Salve Jorge","Pecado Capital","Dancin' Days"]},
+    {id:14,topico:"Personagens de Novela",palavras:["Nazaré Tedesco","Tieta","Carminha","Odorico Paraguaçu","Odete Roitman","Sinhozinho Malta","Félix","Ralf","Juma","Sassá","Branquinha","Soraya","Anastácia","Pantaneiro","Giovanna","Max"]},
+    {id:15,topico:"Filmes Brasileiros",palavras:["Cidade de Deus","Tropa de Elite","Carandiru","Central do Brasil","O Auto da Compadecida","Dona Flor e Seus Dois Maridos","Bacurau","Pixote","Lisbela e o Prisioneiro","O Pagador de Promessas","Eu Sei Que Vou Te Amar","Amarelo Manga","Se Eu Fosse Você","Minha Mãe É uma Peça","Os Normais","Vai que Cola"]},
+    {id:16,topico:"Shows Infantis Clássicos",palavras:["Turma da Mônica","Pica-pau","Tom e Jerry","Scooby-Doo","Flintstones","He-Man","Thundercats","Caverna do Dragão","Chaves","Pernalonga","Castelo Rá-tim-bum","Mundo de Beakman","Os Jetsons","Popeye","Patolino","Pink Pantera"]},
+    {id:17,topico:"Estados Brasileiros",palavras:["São Paulo","Rio de Janeiro","Bahia","Minas Gerais","Paraná","Rio Grande do Sul","Pernambuco","Ceará","Goiás","Amazonas","Pará","Maranhão","Santa Catarina","Mato Grosso","Espírito Santo","Piauí"]},
+    {id:18,topico:"Cidades Famosas",palavras:["São Paulo","Rio de Janeiro","Salvador","Fortaleza","Recife","Manaus","Curitiba","Brasília","Belém","Porto Alegre","Florianópolis","Natal","Maceió","João Pessoa","Teresina","Campo Grande"]},
+    {id:19,topico:"Pontos Turísticos do Brasil",palavras:["Cristo Redentor","Pão de Açúcar","Cataratas do Iguaçu","Pelourinho","Fernando de Noronha","Pantanal","Ouro Preto","Lençóis Maranhenses","Chapada Diamantina","Amazônia","Bonito","Jalapão","Gramado","Alter do Chão","Serra Gaúcha","Ilhéus"]},
+    {id:20,topico:"Biomas Brasileiros",palavras:["Amazônia","Cerrado","Caatinga","Pantanal","Mata Atlântica","Pampa","Mangue","Restinga","Sertão","Várzea","Igapó","Veredas","Campos","Chapada","Brejo","Lavrado"]},
+    {id:21,topico:"Festas Populares",palavras:["Carnaval","Festa Junina","Bumba meu boi","Oktoberfest","Festa do Peão","Reveillón","Círio de Nazaré","Parintins","Lavagem do Bonfim","Folia de Reis","Festa do Divino","Congada","Maracatu","Vaquejada","Micareta","Cavalhadas"]},
+    {id:22,topico:"Lendas e Folclore",palavras:["Saci-Pererê","Curupira","Iara","Boto Cor-de-Rosa","Lobisomem","Cuca","Boitatá","Mãe d'água","Mapinguari","Pisadeira","Corpo Seco","Mula sem cabeça","Anhangá","Caipora","Negrinho do Pastoreio","Homem do Saco"]},
+    {id:23,topico:"Animais do Brasil",palavras:["Onça-pintada","Capivara","Tucano","Arara","Tamanduá","Preguiça","Jacaré","Boto","Mico-leão-dourado","Pirarucu","Anaconda","Harpia","Tatu","Lobo-guará","Paca","Anta"]},
+    {id:24,topico:"Datas Comemorativas",palavras:["Natal","Páscoa","Carnaval","Dia das Mães","Dia dos Pais","Ano Novo","Independência","Dia das Crianças","Dia dos Namorados","Tiradentes","Finados","Corpus Christi","São João","Cosme e Damião","Dia do Trabalho","Proclamação da República"]},
+    {id:25,topico:"Turma da Mônica",palavras:["Mônica","Cebolinha","Cascão","Magali","Anjinho","Chico Bento","Horácio","Pelezinho","Franjinha","Milena","Bidu","Floquinho","Nimbus","Dona Luísa","Seu Fradinho","Marina"]},
+    {id:26,topico:"Animais",palavras:["Cachorro","Gato","Boi","Galinha","Porco","Cavalo","Cabra","Ovelha","Pato","Coelho","Burro","Peru","Vaca","Papagaio","Canário","Hamster"]},
+    {id:27,topico:"Filmes",palavras:["Titanic","Star Wars","Homem-Aranha","O Rei Leão","Harry Potter","Jurassic Park","Toy Story","Matrix","Velozes e Furiosos","Vingadores","Frozen","Procurando Nemo","De Volta para o Futuro","O Senhor dos Anéis","Shrek","Batman"]},
+    {id:28,topico:"Personalidades Históricas",palavras:["Napoleão","Cleópatra","Albert Einstein","Leonardo da Vinci","Isaac Newton","Marie Curie","Mahatma Gandhi","Nelson Mandela","Júlio César","Alexandre o Grande","Charles Darwin","Nicolau Copérnico","Joana d'Arc","Freud","Karl Marx","Abraham Lincoln"]},
+    {id:29,topico:"Profissões",palavras:["Médico","Professor","Advogado","Engenheiro","Bombeiro","Policial","Cozinheiro","Ator","Dentista","Arquiteto","Piloto","Jornalista","Fotógrafo","Veterinário","Cientista","Músico"]},
+    {id:30,topico:"Instrumentos Musicais",palavras:["Guitarra","Piano","Bateria","Violino","Flauta","Saxofone","Contrabaixo","Berimbau","Trompete","Violão","Acordeão","Harpa","Clarinete","Trombone","Ukulelê","Teclado"]},
+    {id:31,topico:"Países do Mundo",palavras:["Brasil","França","Japão","Reino Unido","EUA","China","Rússia","Alemanha","Itália","Espanha","Portugal","Argentina","Coreia do Sul","Tailândia","Canadá","Egito"]},
+    {id:32,topico:"Séries de TV",palavras:["Breaking Bad","Game of Thrones","Friends","Stranger Things","La Casa de Papel","The Office","Black Mirror","Narcos","The Walking Dead","Lost","Grey's Anatomy","Chaves","How I Met Your Mother","The Crown","Squid Game","Dexter"]},
+    {id:33,topico:"Brinquedos Clássicos",palavras:["Lego","Barbie","Hot Wheels","Pula-pula","Peão","Iô-iô","Bola de gude","Boneco de ação","Pipa","Carrinho de controle remoto","Bambolê","Patins","Escorregador","Gangorra","Quebra-cabeça","Amarelinha"]},
+    {id:34,topico:"Contos de Fada",palavras:["Cinderela","Branca de Neve","Chapeuzinho Vermelho","Rapunzel","Pinóquio","Aladim","Bela Adormecida","Peter Pan","A Bela e a Fera","A Pequena Sereia","João e Maria","Polegarzinha","Alice no País das Maravilhas","O Gato de Botas","Rumpelstiltskin","Sininho"]},
+    {id:35,topico:"Países do Mundo 2",palavras:["México","Índia","Austrália","Turquia","Egito","África do Sul","Coreia do Sul","Colômbia","Portugal","Grécia","Marrocos","Tailândia","Cuba","Peru","Indonésia","Noruega"]},
+    {id:36,topico:"Bandas de Rock",palavras:["The Beatles","Rolling Stones","Led Zeppelin","Queen","Nirvana","Pink Floyd","AC/DC","U2","Metallica","Guns N' Roses","The Doors","Bon Jovi","Aerosmith","Radiohead","Red Hot Chili Peppers","Foo Fighters"]},
+    {id:37,topico:"Estrelas do Pop",palavras:["Michael Jackson","Madonna","Beyoncé","Lady Gaga","Britney Spears","Justin Bieber","Rihanna","Katy Perry","Taylor Swift","Ariana Grande","Elvis Presley","Prince","Mariah Carey","Whitney Houston","Harry Styles","The Weeknd"]},
+    {id:38,topico:"Ferramentas",palavras:["Martelo","Chave de fenda","Serrote","Furadeira","Alicate","Trena","Nível","Parafusadeira","Chave inglesa","Formão","Lixa","Estilete","Prego","Fita isolante","Serra circular","Esquadro"]},
+    {id:39,topico:"Frutas",palavras:["Maçã","Banana","Uva","Morango","Laranja","Melancia","Pera","Abacate","Limão","Pêssego","Cereja","Kiwi","Coco","Romã","Framboesa","Ameixa"]},
+    {id:40,topico:"Personagens da Disney",palavras:["Mickey Mouse","Cinderela","Elsa","Buzz Lightyear","Nemo","Moana","Woody","Minnie Mouse","Pato Donald","Ariel","Bela","Aladim","Dumbo","Bambi","Tigrão","Wall-E"]}
+  ],
+  rules: {
+    objetivo: "Todos recebem uma carta de código — exceto o Camaleão, que recebe a carta especial. Role os dados: todos consultam sua grade e descobrem a palavra secreta. O Camaleão não sabe a palavra e precisa se disfarçar!",
+    rodada: "Começando pelo dealer, cada jogador diz UMA palavra relacionada à palavra secreta. O Camaleão deve inventar uma palavra convincente sem conhecer a palavra secreta.",
+    votacao: "Após todos falarem, todos se preparam para apontar para o camaleão, e ao mesmo tempo, todos apontam quem é o Camaleão. O jogador mais votado revela sua carta.",
+    camaleao_pego: "Se o Camaleão for pego, ele tem UMA chance de adivinhar a palavra secreta. Se acertar, ele empata. Se errar, os outros vencem.",
+    pontuacao: "Camaleão escapa: 2pts para o Camaleão | Camaleão pego mas adivinha: 1pt para o Camaleão | Camaleão pego e erra: 2pts para cada outro jogador",
+    vence: "Primeiro jogador a atingir 5 pontos vence!",
+    dados: "Use 2 dados de 12 faces. Um dado = linha (1–12), outro dado = coluna (1–12). A célula marcada com a cor indica sua palavra secreta.",
+    jogadores: "3 a 8 jogadores | 3 jogadores: Camaleão tem 2 tentativas"
+  }
+};
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+let editIdx = -1, isAdding = false;
+const THEMES = ['t0','t1','t2','t3','t4','t5','t6','t7'];
+const SECTIONS = {topics:true, codes:true, backs:false, rules:true};
+const NUM_CODE_CARDS = 7; // 7 normais + 1 camaleão = 8 total (para 8 jogadores)
+
+const stored = localStorage.getItem('camaleao_brazuca');
+if (stored) { try { data = JSON.parse(stored); } catch(e) {} }
+
+/* ══════════════════════════════════════
+   PERSIST / EXPORT
+══════════════════════════════════════ */
+function save() { localStorage.setItem('camaleao_brazuca', JSON.stringify(data)); }
+
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'camaleao-brazuca.json';
+  a.click();
+}
+
+function applyJSON() {
+  try {
+    const parsed = JSON.parse(document.getElementById('json-editor').value);
+    if (!parsed.cards || !parsed.rules) throw new Error('JSON deve ter "cards" e "rules".');
+    data = parsed; save(); render();
+    alert('✅ JSON aplicado com sucesso!');
+    switchTab('topicos');
+  } catch(e) { alert('❌ Erro no JSON: ' + e.message); }
+}
+
+function refreshJSONEditor() {
+  document.getElementById('json-editor').value = JSON.stringify(data, null, 2);
+}
+
+function resetToDefault() {
+  if (!confirm('Restaurar dados padrão? Alterações serão perdidas.')) return;
+  data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  save(); render(); alert('✅ Restaurado!');
+}
+
+/* ══════════════════════════════════════
+   TABS
+══════════════════════════════════════ */
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t => {
+    if ((t.getAttribute('onclick')||'').includes("'"+name+"'")) t.classList.add('active');
+  });
+  if (name==='json') refreshJSONEditor();
+  if (name==='imprimir') renderPreview();
+  if (name==='regras') renderRulesForm();
+}
+
+/* ══════════════════════════════════════
+   CARD LIST
+══════════════════════════════════════ */
+function renderCardList() {
+  document.getElementById('card-count').textContent = data.cards.length;
+  document.getElementById('card-list').innerHTML = data.cards.map((c,i) => `
+    <div class="cli">
+      <div class="cli-head">
+        <span class="cli-num">#${c.id}</span>
+        <span class="cli-title">${c.topico}</span>
+        <div class="cli-acts">
+          <button class="ibtn" onclick="openEditModal(${i})">✏️</button>
+          <button class="ibtn" onclick="removeCard(${i})">🗑️</button>
+        </div>
+      </div>
+      <div class="tags">${c.palavras.map(p=>`<span class="tag">${p}</span>`).join('')}</div>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════
+   RULES FORM
+══════════════════════════════════════ */
+const RULES_LABELS = {
+  objetivo:'🎯 Objetivo',
+  rodada:'🔄 Como jogar uma rodada',
+  votacao:'🗳️ Votação',
+  camaleao_pego:'🦎 Se o Camaleão for pego',
+  pontuacao:'🏆 Pontuação (separe itens com |)',
+  vence:'🥇 Como vencer',
+  dados:'🎲 Como usar os dados',
+  jogadores:'👥 Número de jogadores'
+};
+
+function renderRulesForm() {
+  document.getElementById('rules-form').innerHTML = Object.keys(RULES_LABELS).map(k=>`
+    <div class="fg" style="margin-bottom:.75rem;">
+      <label>${RULES_LABELS[k]}</label>
+      <textarea id="rule-${k}">${data.rules[k]||''}</textarea>
+    </div>`).join('');
+}
+
+function saveRules() {
+  Object.keys(RULES_LABELS).forEach(k => {
+    data.rules[k] = document.getElementById('rule-'+k).value;
+  });
+  save(); alert('✅ Regras salvas!');
+}
+
+/* ══════════════════════════════════════
+   MODAL
+══════════════════════════════════════ */
+function openAddModal() {
+  isAdding=true; editIdx=-1;
+  document.getElementById('modal-title').textContent='➕ Nova Carta';
+  document.getElementById('e-id').value = Math.max(...data.cards.map(c=>c.id),0)+1;
+  document.getElementById('e-topic').value='';
+  document.getElementById('e-words').innerHTML =
+    Array.from({length:16},(_,i)=>`<input type="text" id="ew${i}" placeholder="Palavra ${i+1}"/>`).join('');
+  document.getElementById('edit-overlay').classList.add('open');
+}
+
+function openEditModal(i) {
+  isAdding=false; editIdx=i;
+  const c=data.cards[i];
+  document.getElementById('modal-title').textContent='✏️ Editar Carta';
+  document.getElementById('e-id').value=c.id;
+  document.getElementById('e-topic').value=c.topico;
+  document.getElementById('e-words').innerHTML =
+    c.palavras.map((w,j)=>`<input type="text" id="ew${j}" value="${w.replace(/"/g,'&quot;')}"/>`).join('');
+  document.getElementById('edit-overlay').classList.add('open');
+}
+
+function closeModal() { document.getElementById('edit-overlay').classList.remove('open'); }
+
+function saveModal() {
+  const id=parseInt(document.getElementById('e-id').value);
+  const topic=document.getElementById('e-topic').value.trim();
+  const words=Array.from({length:16},(_,j)=>document.getElementById('ew'+j).value.trim());
+  if (!id||!topic) return alert('Preencha número e tópico.');
+  if (words.some(w=>!w)) return alert('Preencha todas as 16 palavras.');
+  const clash=data.cards.findIndex(c=>c.id===id);
+  if (clash!==-1&&clash!==editIdx) return alert(`Já existe carta com id ${id}.`);
+  const card={id,topico:topic,palavras:words};
+  if (isAdding) data.cards.push(card); else data.cards[editIdx]=card;
+  data.cards.sort((a,b)=>a.id-b.id);
+  save(); render(); closeModal();
+}
+
+function removeCard(i) {
+  if (!confirm(`Remover "${data.cards[i].topico}"?`)) return;
+  data.cards.splice(i,1); save(); render();
+}
+
+document.getElementById('edit-overlay').addEventListener('click', e => {
+  if (e.target===document.getElementById('edit-overlay')) closeModal();
+});
+
+/* ══════════════════════════════════════
+   BUILD: TOPIC CARD
+══════════════════════════════════════ */
+function buildTopicCard(c, i) {
+  const d = document.createElement('div');
+  d.className = `card-base topic-card ${THEMES[i%THEMES.length]}`;
+  let cells='';
+  for(let r=0;r<8;r++){
+    const w1=c.palavras[r]||'', w2=c.palavras[r+8]||'';
+    cells+=`<div class="tc-cell"><span class="cc-n">${r+1}</span><span class="cc-w">${w1}</span></div>`;
+    cells+=`<div class="tc-cell"><span class="cc-n">${r+9}</span><span class="cc-w">${w2}</span></div>`;
+  }
+  d.innerHTML=`
+    <div class="tc-topband"><span>Camaleão Brazuca</span></div>
+    <div class="tc-head">
+      <div class="tc-num">Carta #${c.id}</div>
+      <div class="tc-title">${c.topico}</div>
+    </div>
+    <div class="tc-divider"></div>
+    <div class="tc-grid">${cells}</div>
+    <div class="tc-botband"><span>🦎 Camaleão Brazuca</span></div>`;
+  return d;
+}
+
+/* ══════════════════════════════════════
+   BUILD: CODE CARD (12×12)
+
+   CARTÃO NORMAL:
+   - 144 células, números 1-16, exatamente 9x cada (144/16=9) ✓
+   - Balanceamento perfeito — chance igual para cada palavra
+
+   CARTÃO DO CAMALEÃO:
+   - Grade idêntica ao normal
+   - Células centrais (linhas 6-8, colunas 6-8) cobertas
+     por um único emoji 🦎 grande via overlay relativo
+   - Visualmente indistinguível de longe do verso
+══════════════════════════════════════ */
+function seededShuffle(arr, seed) {
+  const a=[...arr]; let s=seed;
+  for(let i=a.length-1;i>0;i--){
+    s=(s*1664525+1013904223)&0xffffffff;
+    const j=Math.abs(s)%(i+1);
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function generateMasterGrid() {
+  // 144 células = 16 números × 9 ocorrências cada → balanceamento perfeito
+  const nums=[];
+  for(let n=1;n<=16;n++) nums.push(...Array(9).fill(n));
+  // nums.length = 144 ✓
+  const shuffled=seededShuffle(nums,20250315);
+  const grid=[];
+  for(let r=0;r<12;r++){
+    grid.push(shuffled.slice(r*12, r*12+12));
+  }
+  return grid;
+}
+
+const MASTER_GRID = generateMasterGrid();
+
+const NUM_COLORS = [
+  '#c1121f','#e07b00','#2a9d8f','#1d6fa4','#6a0572',
+  '#9a8800','#1b6b3a','#c0392b','#0077b6','#7b2fbe',
+  '#ae2012','#2d8653','#d4600a','#023e8a','#7b2d8b','#4a5e1a'
+];
+
+// Bloco central do camaleão: linhas 6-8, colunas 6-8 (índices 5-7)
+const CHAM_ROWS = [5,6,7];
+const CHAM_COLS = [5,6,7];
+
+function buildCodeCard(isChameleon) {
+  const d = document.createElement('div');
+  d.className = 'card-base code-card';
+  // position:relative para o overlay do camaleão
+  d.style.position = 'relative';
+
+  const colNums = Array.from({length:12},(_,i)=>`<span>${i+1}</span>`).join('');
+  let rows='';
+  for(let r=0;r<12;r++){
+    let cells='';
+    for(let c=0;c<12;c++){
+      const val=MASTER_GRID[r][c];
+      cells+=`<div class="code-cell" style="background:${NUM_COLORS[val-1]};color:#fff;">${val}</div>`;
+    }
+    rows+=`<div class="code-row"><div class="code-row-num">${r+1}</div>${cells}</div>`;
+  }
+
+  // Nas células 6-8 × 6-8 adicionamos data-cham para o overlay via JS após render
+  // Isso garante posicionamento pixel-perfect baseado no DOM real
+  const chamAttr = isChameleon ? 'data-cham="1"' : '';
+
+  d.innerHTML=`
+    <div class="code-topband"><span>Cartão de Código</span></div>
+    <div class="code-header">
+      <div class="code-title">🦎 Camaleão Brazuca</div>
+      <div class="code-sub">🎲 Dado 1 → Linha &nbsp;|&nbsp; 🎲 Dado 2 → Coluna</div>
+    </div>
+    <div class="code-grid-wrap" ${chamAttr}>
+      <div class="code-col-nums">${colNums}</div>
+      ${rows}
+    </div>
+    <div class="code-botband"><span>O número na célula = posição na carta de tópico 📋</span></div>`;
+
+  // Posiciona overlay após o innerHTML estar no DOM
+  if (isChameleon) {
+    requestAnimationFrame(() => {
+      const wrap = d.querySelector('.code-grid-wrap');
+      const allRows = wrap.querySelectorAll('.code-row');
+      if (allRows.length < 8) return;
+
+      // Pega a célula [linha=6,col=6] (índice 5,5) e [linha=8,col=8] (índice 7,7)
+      const getCell = (r, c) => {
+        const row = allRows[r];
+        // cada row tem: .code-row-num + 12 .code-cell
+        const cells = row.querySelectorAll('.code-cell');
+        return cells[c];
+      };
+
+      const cellTL = getCell(5, 5); // top-left do bloco 3×3
+      const cellBR = getCell(7, 7); // bottom-right
+
+      if (!cellTL || !cellBR) return;
+
+      const wrapRect = wrap.getBoundingClientRect();
+      const tlRect  = cellTL.getBoundingClientRect();
+      const brRect  = cellBR.getBoundingClientRect();
+
+      const overlay = document.createElement('div');
+      overlay.style.cssText = `
+        position:absolute;
+        top:${tlRect.top - wrapRect.top + wrap.offsetTop}px;
+        left:${tlRect.left - wrapRect.left + wrap.offsetLeft}px;
+        width:${brRect.right - tlRect.left}px;
+        height:${brRect.bottom - tlRect.top}px;
+        background:#0d2a0d;
+        display:flex;align-items:center;justify-content:center;
+        border-radius:3px;
+        z-index:10;
+        font-size:1.8rem;
+        line-height:1;
+        box-shadow:0 0 0 2px #25a05a;
+        pointer-events:none;
+      `;
+      overlay.textContent = '🦎';
+      d.appendChild(overlay);
+    });
+  }
+
+  return d;
+}
+
+/* ══════════════════════════════════════
+   BUILD: BACK CARDS
+   - Tópico: azul escuro (bandeira BR)
+   - Código/Camaleão: verde escuro (mesmo de antes)
+   Ambos com mesmo layout — harmônicos entre si
+══════════════════════════════════════ */
+function buildBackCard(type) {
+  // type: 'topic' = azul bandeira | 'code' = verde escuro (padrão)
+  const isBlue = (type === 'topic');
+  const d = document.createElement('div');
+  d.className = 'card-base ' + (isBlue ? 'back-card-blue' : 'back-card');
+  d.innerHTML=`
+    <div class="back-bg"></div>
+    <div class="back-inner"></div>
+    <div class="back-content">
+      <span class="back-emoji">🦎</span>
+      <div class="back-title">Camaleão<span class="hl">Brazuca</span></div>
+      <div class="back-dots">
+        <div class="back-dot y"></div><div class="back-dot"></div>
+        <div class="back-dot y"></div><div class="back-dot"></div>
+        <div class="back-dot y"></div>
+      </div>
+    </div>`;
+  return d;
+}
+
+/* ══════════════════════════════════════
+   BUILD: RULES CARD
+══════════════════════════════════════ */
+function buildRulesCard() {
+  const r=data.rules;
+  const scores=(r.pontuacao||'').split('|').map(s=>
+    `<div class="rules-score-item">${s.trim()}</div>`).join('');
+  const d=document.createElement('div');
+  d.className='card-base rules-card';
+  d.innerHTML=`
+    <div class="rules-topband"><span>📖 Como Jogar — Camaleão Brazuca</span></div>
+    <div class="rules-body">
+      <div class="rules-maintitle">Camaleão Brazuca</div>
+      <div class="rules-sec">
+        <div class="rules-sec-title">🎯 Objetivo</div>
+        <div class="rules-sec-text">${r.objetivo||''}</div>
+      </div>
+      <div class="rules-sec">
+        <div class="rules-sec-title">🔄 Rodada</div>
+        <div class="rules-sec-text">${r.rodada||''}</div>
+      </div>
+      <div class="rules-sec">
+        <div class="rules-sec-title">🗳️ Votação</div>
+        <div class="rules-sec-text">${r.votacao||''}</div>
+      </div>
+      <div class="rules-sec">
+        <div class="rules-sec-title">🦎 Camaleão pego</div>
+        <div class="rules-sec-text">${r.camaleao_pego||''}</div>
+      </div>
+      <div class="rules-sec">
+        <div class="rules-sec-title">🏆 Pontuação</div>
+        <div class="rules-scores">${scores}</div>
+      </div>
+      <div class="rules-sec">
+        <div class="rules-sec-title">🎲 Dados &amp; Jogadores</div>
+        <div class="rules-sec-text">${r.dados||''} — ${r.jogadores||''}</div>
+      </div>
+    </div>
+    <div class="rules-botband"><span>🥇 ${r.vence||'Primeiro a 5 pontos vence!'}</span></div>`;
+  return d;
+}
+
+/* ══════════════════════════════════════
+   RENDER PREVIEW
+══════════════════════════════════════ */
+function toggleSection(name) {
+  SECTIONS[name] = !SECTIONS[name];
+  // Update button visual state
+  const btn = document.getElementById('tog-'+name);
+  if (btn) {
+    btn.classList.toggle('toggle-on',  SECTIONS[name]);
+    btn.classList.toggle('toggle-off', !SECTIONS[name]);
+  }
+  renderPreview();
+}
+
+function addLabel(grid, text) {
+  const l=document.createElement('div');
+  l.className='section-label';
+  l.textContent=text;
+  grid.appendChild(l);
+}
+
+function renderPreview() {
+  const grid=document.getElementById('preview-grid');
+  grid.innerHTML='';
+
+  if(SECTIONS.topics){
+    addLabel(grid,`📋 Cartas de Tópico (${data.cards.length})`);
+    data.cards.forEach((c,i)=>grid.appendChild(buildTopicCard(c,i)));
+  }
+
+  if(SECTIONS.codes){
+    addLabel(grid,`🔢 Cartões de Código — ${NUM_CODE_CARDS} normais + 1 Camaleão (todos idênticos)`);
+    // Cartões normais
+    for(let v=1;v<=NUM_CODE_CARDS;v++) grid.appendChild(buildCodeCard(false));
+    // Cartão do Camaleão — visualmente idêntico
+    grid.appendChild(buildCodeCard(true));
+  }
+
+  if(SECTIONS.rules){
+    addLabel(grid,'📖 Carta de Regras');
+    grid.appendChild(buildRulesCard());
+  }
+
+  if(SECTIONS.backs){
+    const topicCount = data.cards.length;
+    const codeCount  = NUM_CODE_CARDS + 1 + 1; // normais + camaleão + regras
+    addLabel(grid,`🔄 Versos — Tópicos (azul): ${topicCount} · Código/Camaleão/Regras (verde): ${codeCount}`);
+    // Versos azuis para cartas de tópico
+    for(let i=0;i<topicCount;i++) grid.appendChild(buildBackCard('topic'));
+    // Versos verdes para cartões de código, camaleão e regras
+    for(let i=0;i<codeCount;i++) grid.appendChild(buildBackCard('code'));
+  }
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+function render() { renderCardList(); }
+render();
+</script>
+</body>
+</html>
