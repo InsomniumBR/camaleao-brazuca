@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Camaleão Brazuca</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800;900&family=Nunito:wght@400;600;700;800&family=Roboto+Condensed:wght@700;800&family=Oswald:wght@500;600;700&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet"/>
 <style>
 :root {
   --green:  #1b6b3a;
@@ -15,8 +15,10 @@
   --teal:   #0a9396;
   --cream:  #fffdf4;
   --dark:   #1a1a2e;
-  --card-w: 63mm;
-  --card-h: 88mm;
+  --card-w: 4in;
+  --card-h: 6in;
+  --cs: 1.613;
+  --card-font: 'Nunito';
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Nunito',sans-serif;background:#eef4ee;color:var(--dark);}
@@ -63,11 +65,6 @@ body{font-family:'Nunito',sans-serif;background:#eef4ee;color:var(--dark);}
 .back-card-blue .back-inner{position:absolute;inset:5px;border:1.5px solid rgba(255,255,255,.18);border-radius:4px;}
 .back-card-blue .back-content{position:relative;z-index:1;display:flex;flex-direction:column;
   align-items:center;justify-content:center;height:100%;text-align:center;padding:1rem;}
-.back-card-blue .back-emoji{font-size:2.4rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.4));margin-bottom:.35rem;}
-.back-card-blue .back-title{font-family:'Baloo 2',cursive;font-size:.88rem;font-weight:900;color:#fff;line-height:1.1;}
-.back-card-blue .back-title .hl{color:var(--yellow);font-size:1rem;display:block;}
-.back-card-blue .back-dots{display:flex;gap:3px;margin-top:.5rem;}
-.back-card-blue .back-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.3);}
 .back-card-blue .back-dot.y{background:var(--yellow);}
 
 .stitle{font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:800;color:var(--green);
@@ -109,9 +106,18 @@ textarea{resize:vertical;min-height:70px;}
 .modal-acts{display:flex;gap:.5rem;justify-content:flex-end;margin-top:.5rem;}
 
 /* ── PRINT CARDS ── */
-.preview-grid{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-start;}
+.preview-grid{display:flex;flex-direction:column;align-items:flex-start;gap:1.5rem;}
 .section-label{width:100%;font-family:'Baloo 2',cursive;font-size:.9rem;font-weight:800;
   color:var(--green);padding:.4rem 0;margin-top:.6rem;}
+.print-page{
+  display:grid;
+  gap:1mm;
+  break-after:page;
+  page-break-after:always;
+  outline:1px dashed #c8e6c8;
+  width:fit-content;
+}
+.card-blank{width:var(--card-w);height:var(--card-h);visibility:hidden;box-sizing:border-box;}
 
 .card-base{width:var(--card-w);height:var(--card-h);border-radius:7px;overflow:hidden;
   position:relative;display:flex;flex-direction:column;
@@ -119,34 +125,36 @@ textarea{resize:vertical;min-height:70px;}
 
 /* Topic card */
 .topic-card{background:var(--cream);border:1.5px solid #bbb;}
-.tc-topband{height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.tc-topband span{font-size:.52rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#fff;}
-.tc-head{padding:3px 6px 2px;text-align:center;flex-shrink:0;}
-.tc-num{font-size:.55rem;font-weight:900;letter-spacing:1px;text-transform:uppercase;opacity:.85;}
-.tc-title{font-family:'Baloo 2',cursive;font-size:.75rem;font-weight:900;line-height:1.1;color:var(--dark);}
+.tc-topband{height:calc(var(--cs)*18px);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tc-topband span{font-size:calc(var(--cs)*.52rem);letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#fff;}
+.tc-head{padding:calc(var(--cs)*3px) calc(var(--cs)*6px) calc(var(--cs)*2px);text-align:center;flex-shrink:0;}
+.tc-num{font-size:calc(var(--cs)*.55rem);font-weight:900;letter-spacing:1px;text-transform:uppercase;opacity:.85;}
+.tc-title{font-family:var(--card-font),cursive;font-size:calc(var(--cs)*.82rem);font-weight:900;line-height:1.1;color:var(--dark);}
 .tc-divider{height:2px;margin:0 7px;border-radius:2px;flex-shrink:0;}
-.tc-grid{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(8,1fr);padding:3px 4px;gap:2px;background:rgba(0,0,0,.04);border-radius:3px;}
+.tc-grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(8,1fr);padding:calc(var(--cs)*3px) calc(var(--cs)*4px);gap:calc(var(--cs)*2px);background:rgba(0,0,0,.04);border-radius:3px;overflow:hidden;}
 .tc-cell{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  position:relative;border-radius:5px;padding:2px 3px 2px 3px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;border-radius:5px;min-height:0;
+  padding:calc(var(--cs)*3px) calc(var(--cs)*4px);
   background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.08);
   overflow:hidden;
 }
 .cc-n{
-  position:absolute;top:1px;left:3px;
-  font-size:.48rem;font-weight:900;line-height:1;opacity:.75;
+  position:absolute;top:calc(var(--cs)*1px);left:calc(var(--cs)*3px);
+  font-size:calc(var(--cs)*.44rem);font-weight:900;line-height:1;opacity:.6;
   font-family:'Baloo 2',cursive;
 }
 .cc-w{
-  font-size:.54rem;font-weight:800;line-height:1.2;
-  text-align:center;width:100%;
-  white-space:normal;word-break:break-word;overflow:hidden;
-  padding:0 2px;margin-top:4px;
-  font-family:'Baloo 2',cursive;
+  font-size:calc(var(--cs)*.55rem);font-weight:800;line-height:1.15;
+  text-align:center;width:100%;min-height:0;
+  text-transform:uppercase;letter-spacing:.04em;
+  white-space:normal;word-break:normal;overflow:hidden;
+  padding:0 calc(var(--cs)*6px);
+  font-family:var(--card-font),cursive;
   color:var(--dark);
 }
-.tc-botband{height:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.tc-botband span{font-size:.4rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#fff;opacity:.85;}
+.tc-botband{height:calc(var(--cs)*13px);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tc-botband span{font-size:calc(var(--cs)*.4rem);font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#fff;opacity:.85;}
 
 /* themes */
 .t0{--tc:#1b6b3a;} .t1{--tc:#e07b00;} .t2{--tc:#1d6fa4;}
@@ -158,22 +166,22 @@ textarea{resize:vertical;min-height:70px;}
 
 /* Code card */
 .code-card{background:#1a2a1a;border:1.5px solid #0a1a0a;}
-.code-topband{height:18px;background:#0d1f0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.code-topband span{font-size:.5rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#a8d8a8;}
-.code-header{padding:3px 6px 2px;flex-shrink:0;}
-.code-title{font-family:'Baloo 2',cursive;font-size:.65rem;font-weight:900;color:#a8d8a8;line-height:1.1;}
-.code-sub{font-size:.42rem;font-weight:700;color:#6aaa6a;margin-top:1px;line-height:1.4;}
-.code-grid-wrap{flex:1;padding:1px 4px 1px 3px;display:flex;flex-direction:column;gap:0px;}
-.code-col-nums{display:flex;padding-left:9px;margin-bottom:1px;}
-.code-col-nums span{flex:1;text-align:center;font-size:.32rem;font-weight:800;color:#5a8a5a;font-family:'Baloo 2',cursive;}
-.code-row{display:flex;gap:1px;flex:1;align-items:stretch;}
-.code-row-num{font-size:.32rem;font-weight:800;color:#5a8a5a;font-family:'Baloo 2',cursive;
-  width:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.code-cell{flex:1;display:flex;align-items:center;justify-content:center;border-radius:1px;
-  font-size:.36rem;font-weight:900;font-family:'Baloo 2',cursive;color:#fff;}
+.code-topband{height:calc(var(--cs)*18px);background:#0d1f0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.code-topband span{font-size:calc(var(--cs)*.5rem);letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#a8d8a8;}
+.code-header{padding:calc(var(--cs)*3px) calc(var(--cs)*6px) calc(var(--cs)*2px);flex-shrink:0;}
+.code-title{font-family:'Baloo 2',cursive;font-size:calc(var(--cs)*.65rem);font-weight:900;color:#a8d8a8;line-height:1.1;}
+.code-sub{font-size:calc(var(--cs)*.42rem);font-weight:700;color:#6aaa6a;margin-top:1px;line-height:1.4;}
+.code-grid-wrap{flex:1;padding:1px 4px 1px 3px;display:flex;flex-direction:column;gap:calc(var(--cs)*1.5px);}
+.code-col-nums{display:flex;padding-left:calc(var(--cs)*9px);margin-bottom:calc(var(--cs)*1.5px);}
+.code-col-nums span{flex:1;text-align:center;font-size:calc(var(--cs)*.32rem);font-weight:800;color:#5a8a5a;font-family:'Baloo 2',cursive;}
+.code-row{display:flex;gap:calc(var(--cs)*1.5px);flex:1;align-items:stretch;}
+.code-row-num{font-size:calc(var(--cs)*.32rem);font-weight:800;color:#5a8a5a;font-family:'Baloo 2',cursive;
+  width:calc(var(--cs)*9px);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.code-cell{flex:1;display:flex;align-items:center;justify-content:center;border-radius:calc(var(--cs)*2px);
+  font-size:calc(var(--cs)*.36rem);font-weight:900;font-family:'Baloo 2',cursive;color:#fff;}
 
-.code-botband{height:13px;background:#0d1f0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.code-botband span{font-size:.38rem;font-weight:700;color:#6aaa6a;letter-spacing:.5px;}
+.code-botband{height:calc(var(--cs)*13px);background:#0d1f0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.code-botband span{font-size:calc(var(--cs)*.38rem);font-weight:700;color:#6aaa6a;letter-spacing:.5px;}
 
 /* Back card — identical for ALL cards */
 .back-card{background:linear-gradient(145deg,#1b6b3a,#0d3d20);border:1.5px solid #0a2a15;}
@@ -183,38 +191,39 @@ textarea{resize:vertical;min-height:70px;}
              radial-gradient(circle at 70% 70%,rgba(245,200,0,.07) 0%,transparent 60%);}
 .back-content{position:relative;z-index:1;display:flex;flex-direction:column;
   align-items:center;justify-content:center;height:100%;text-align:center;padding:1rem;}
-.back-emoji{font-size:2.4rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.4));margin-bottom:.35rem;}
-.back-title{font-family:'Baloo 2',cursive;font-size:.88rem;font-weight:900;color:#fff;line-height:1.1;}
-.back-title .hl{color:var(--yellow);font-size:1rem;display:block;}
-.back-dots{display:flex;gap:3px;margin-top:.5rem;}
-.back-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.3);}
+.back-emoji{font-size:calc(var(--cs)*2.4rem);filter:drop-shadow(0 2px 8px rgba(0,0,0,.4));margin-bottom:.35rem;}
+.back-title{font-family:'Baloo 2',cursive;font-size:calc(var(--cs)*.88rem);font-weight:900;color:#fff;line-height:1.1;}
+.back-title .hl{color:var(--yellow);font-size:calc(var(--cs)*1rem);display:block;}
+.back-dots{display:flex;gap:calc(var(--cs)*3px);margin-top:.5rem;}
+.back-dot{width:calc(var(--cs)*4px);height:calc(var(--cs)*4px);border-radius:50%;background:rgba(255,255,255,.3);}
 .back-dot.y{background:var(--yellow);}
 
 /* Rules card */
 .rules-card{background:#fffdf4;border:1.5px solid #bbb;}
-.rules-topband{height:18px;background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.rules-topband span{font-size:.52rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#fff;}
-.rules-body{flex:1;padding:4px 6px;overflow:hidden;}
-.rules-maintitle{font-family:'Baloo 2',cursive;font-size:.72rem;font-weight:900;color:var(--orange);margin-bottom:3px;}
-.rules-sec{margin-bottom:3px;}
-.rules-sec-title{font-size:.44rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--green);margin-bottom:1px;}
-.rules-sec-text{font-size:.41rem;font-weight:600;color:#333;line-height:1.55;}
-.rules-scores{display:flex;gap:2px;margin-top:2px;flex-wrap:wrap;}
-.rules-score-item{background:#f0f8f0;border-radius:3px;padding:2px 3px;font-size:.37rem;
+.rules-topband{height:calc(var(--cs)*22px);background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rules-topband span{font-size:calc(var(--cs)*.6rem);letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#fff;}
+.rules-body{flex:1;padding:calc(var(--cs)*2px) calc(var(--cs)*7px);overflow:hidden;}
+.rules-maintitle{display:none;}
+.rules-sec{margin-bottom:calc(var(--cs)*2px);}
+.rules-sec-title{font-size:calc(var(--cs)*.55rem);font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--green);margin-bottom:0;}
+.rules-sec-text{font-size:calc(var(--cs)*.48rem);font-weight:600;color:#333;line-height:1.35;}
+.rules-scores{display:flex;gap:calc(var(--cs)*3px);margin-top:calc(var(--cs)*2px);flex-wrap:wrap;}
+.rules-score-item{background:#f0f8f0;border-radius:3px;padding:calc(var(--cs)*2px) calc(var(--cs)*4px);font-size:calc(var(--cs)*.5rem);
   font-weight:700;color:var(--green);line-height:1.4;text-align:center;flex:1;min-width:0;}
-.rules-botband{height:13px;background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.rules-botband span{font-size:.4rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#fff;opacity:.9;}
+.rules-botband{height:calc(var(--cs)*18px);background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rules-botband span{font-size:calc(var(--cs)*.52rem);font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#fff;opacity:.9;}
 
 /* ── PRINT ── */
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
   body{background:#fff;}
+  .ui{padding:0!important;}
   .ui>*:not(#tab-imprimir){display:none!important;}
   #tab-imprimir{display:block!important;}
-  .controls,.stitle,.infobox{display:none!important;}
+  .controls,.stitle,.infobox,.print-controls{display:none!important;}
   .section-label{display:none!important;}
-  .preview-grid{gap:3mm;padding:0;}
-  @page{size:A4;margin:8mm;}
+  .preview-grid{display:block;gap:0;padding:0;}
+  .print-page{outline:none!important;margin:0!important;}
 }
 </style>
 </head>
@@ -276,17 +285,102 @@ textarea{resize:vertical;min-height:70px;}
 
   <!-- IMPRIMIR -->
   <div id="tab-imprimir" class="tab-panel">
-    <div class="stitle">🖨️ Visualizar & Imprimir</div>
+    <div class="stitle">🖨️ Visualizar &amp; Imprimir</div>
     <div class="controls">
       <button class="btn btn-green" onclick="window.print()">🖨️ Imprimir / PDF</button>
-      <button class="btn toggle-btn toggle-on" id="tog-topics" onclick="toggleSection('topics')">📋 Tópicos</button>
-      <button class="btn toggle-btn toggle-on" id="tog-codes" onclick="toggleSection('codes')">🔢 Códigos</button>
-      <button class="btn toggle-btn toggle-off" id="tog-backs" onclick="toggleSection('backs')">🔄 Versos</button>
-      <button class="btn toggle-btn toggle-on" id="tog-rules" onclick="toggleSection('rules')">📖 Regras</button>
     </div>
-    <div class="infobox">
-      💡 Botões <strong style="color:#1b6b3a;">verdes ✓</strong> = seção visível &nbsp;|&nbsp; Botões <strong style="color:#888;">acinzentados ✗</strong> = oculto. Imprima versos separadamente para frente/verso.
+
+    <div class="print-controls infobox" style="display:flex;flex-direction:column;gap:.9rem;padding:1rem;">
+
+      <div style="display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;">
+        <strong style="font-size:.82rem;min-width:140px;">📄 Papel:</strong>
+        <select id="sel-paper" style="font-size:.82rem;" onchange="setPaper(this.value)">
+          <option value="A4">A4 (210×297mm)</option>
+          <option value="A3">A3 (297×420mm)</option>
+          <option value="Letter">Letter (8.5"×11")</option>
+          <option value="Legal">Legal (8.5"×14")</option>
+          <option value="Tabloid">Tabloid (11"×17")</option>
+        </select>
+        <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
+          <input type="radio" name="orientation" value="portrait" checked onchange="setOrientation(this.value)"> Retrato
+        </label>
+        <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
+          <input type="radio" name="orientation" value="landscape" onchange="setOrientation(this.value)"> Paisagem
+        </label>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;">
+        <strong style="font-size:.82rem;min-width:140px;">🃏 Tamanho da carta:</strong>
+        <select id="sel-card-preset" style="font-size:.82rem;" onchange="setCardPreset(this.value)">
+          <option value="4x6in">4" × 6" (padrão)</option>
+          <option value="poker">2.5" × 3.5" (Poker)</option>
+          <option value="tarot">2.75" × 4.75" (Tarô)</option>
+          <option value="mini">2" × 2.8" (Mini)</option>
+          <option value="custom">Personalizado...</option>
+        </select>
+        <span id="card-custom-inputs" style="display:none;gap:.4rem;align-items:center;">
+          <label style="font-size:.82rem;font-weight:700;">L <input type="number" id="inp-card-w" min="20" max="300" value="101.6" step="0.1" style="width:68px;" oninput="setCardCustom()"> mm</label>
+          <label style="font-size:.82rem;font-weight:700;">A <input type="number" id="inp-card-h" min="20" max="300" value="152.4" step="0.1" style="width:68px;" oninput="setCardCustom()"> mm</label>
+        </span>
+        <span id="grid-info" style="font-size:.78rem;color:#1b5e20;font-weight:700;"></span>
+      </div>
+
+      <div>
+        <strong style="font-size:.82rem;">Modo de impressão:</strong>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.35rem;">
+          <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
+            <input type="radio" name="print-mode" value="fronts" checked onchange="setPrintMode(this.value)"> Somente Frentes
+          </label>
+          <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
+            <input type="radio" name="print-mode" value="backs" onchange="setPrintMode(this.value)"> Somente Versos
+          </label>
+          <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
+            <input type="radio" name="print-mode" value="both" onchange="setPrintMode(this.value)"> Frentes + Versos
+          </label>
+        </div>
+        <div style="font-size:.74rem;color:#555;margin-top:.25rem;">
+          💡 Para frente/verso: imprima as <em>Frentes</em>, reinsira o papel, imprima os <em>Versos</em>. Os versos são espelhados para alinhar com as frentes ao virar a folha.
+        </div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;">
+        <strong style="font-size:.82rem;min-width:140px;">📋 Cartas de Tópico:</strong>
+        <label style="font-size:.82rem;font-weight:700;">
+          Da carta nº
+          <input type="number" id="inp-from" min="1" value="1" style="width:55px;"
+                 oninput="setPrintFrom(this.value)">
+        </label>
+        <label style="font-size:.82rem;font-weight:700;">
+          Quantidade
+          <input type="number" id="inp-count" min="0" placeholder="todas" style="width:65px;"
+                 oninput="setPrintCount(this.value)">
+        </label>
+        <span id="topic-count-label" style="font-size:.78rem;color:#1b5e20;font-weight:700;"></span>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;">
+        <strong style="font-size:.82rem;min-width:140px;">🔢 Cartões de Código:</strong>
+        <label style="font-size:.82rem;font-weight:700;">
+          Normais (0–7)
+          <input type="number" id="inp-codes" min="0" max="7" value="7" style="width:50px;"
+                 oninput="setNumCodes(this.value)">
+        </label>
+        <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
+          <input type="checkbox" id="chk-chameleon" checked onchange="setChameleon(this.checked)">
+          Incluir Camaleão
+        </label>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:.75rem;">
+        <strong style="font-size:.82rem;min-width:140px;">📖 Regras:</strong>
+        <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
+          <input type="checkbox" id="chk-rules" checked onchange="setRules(this.checked)">
+          Incluir carta de regras
+        </label>
+      </div>
+
     </div>
+
     <div class="preview-grid" id="preview-grid"></div>
   </div>
 
@@ -317,7 +411,7 @@ const DEFAULT_DATA = {
   cards: [
     {"id":1,"topico":"Comidas","palavras":["Feijoada","Coxinha","Pamonha","Mandioca","Polenta","Churrasco","Acarajé","Escondidinho","Pão de Queijo","Farofa","Arroz carreteiro","Torresmo","Kibe","Pastel","Strogonoff","Omelete"]},
     {"id":2,"topico":"Frutas","palavras":["Manga","Coco","Limão","Laranja","Abacaxi","Pera","Goiaba","Maça","Mamão","Abacate","Morango","Kiwi","Melão","Uva","Melancia","Banana"]},
-    {"id":3,"topico":"Doces & Sobremesas","palavras":["Pudim","Brigadeiro","Pé de moleque","Geladinho/Sacolé","Danone","Cocada","Paçoca","Beijinho","Gelatina","Bolo","Torta","Sorvete","Mousse","Milkshake","Bala","Pavê"]},
+    {"id":3,"topico":"Doces & Sobremesas","palavras":["Pudim","Brigadeiro","Pé de moleque","Geladinho/ Sacolé","Danone","Cocada","Paçoca","Beijinho","Gelatina","Bolo","Torta","Sorvete","Mousse","Milkshake","Bala","Pavê"]},
     {"id":4,"topico":"Bebidas","palavras":["Caipirinha","Guaraná","Café","Chimarrão","Água de coco","Caldo de cana","Quentão","Vodka","Whisky","Cerveja","Cachaça","Licor","Suco","Refrigerante","Vinho","Leite"]},
     {"id":5,"topico":"Filmes Internacionais 1","palavras":["O Exterminador do Futuro","Esqueceram de Mim","Indiana Jones","007 (James Bond)","Aladdin","Divertida Mente","Homem de Ferro","Karatê Kid","Missão Impossível","Transformers","Carros","Tubarão","Up","Deadpool","Minions","Zootopia"]},
     {"id":6,"topico":"Esportes Brasileiros","palavras":["Futebol","Vôlei","Jiu-jitsu","Capoeira","Futsal","Surfe","Automobilismo","Natação","Tênis","Basquete","Handebol","Skate","MMA","Judô","Atletismo","Hipismo"]},
@@ -346,7 +440,7 @@ const DEFAULT_DATA = {
     {"id":29,"topico":"Profissões","palavras":["Médico","Professor","Advogado","Engenheiro","Bombeiro","Policial","Cozinheiro","Ator","Dentista","Arquiteto","Piloto","Jornalista","Fotógrafo","Veterinário","Cientista","Músico"]},
     {"id":30,"topico":"Instrumentos Musicais","palavras":["Guitarra","Violão","Piano","Teclado","Bateria","Violino","Flauta","Gaita","Berimbau","Harpa","Pandeiro","Triângulo","Orgão","Maracas","Saxofone","Trombone"]},
     {"id":31,"topico":"Países do Mundo","palavras":["Brasil","França","Japão","EUA","China","Rússia","Alemanha","Itália","Espanha","Portugal","Argentina","México","Canadá","Egito","Inglaterra","Suíca"]},
-    {"id":32,"topico":"Séries","palavras":["Game of Thrones","Friends","Stranger Things","La Casa de Papel","The Office","Black Mirror","The Walking Dead","Chaves","Two and a half men","The Big Bang Theory","Simpsons","Família Dinossauro","A Familia Adams","ER","Malhação","Sai de Baixo"]},
+    {"id":32,"topico":"Séries","palavras":["Game of Thrones","Friends","Stranger Things","La Casa de Papel","The Office","Black Mirror","The Walking Dead","Chaves","Two and a half men","The Big Bang Theory","Simpsons","Família Dinossauro","A Familia Adams","Narcos","Malhação","Sai de Baixo"]},
     {"id":33,"topico":"Brinquedos","palavras":["Lego","Barbie","Hot Wheels","Skate","Peão","Iô-iô","Bola de gude","Amarelinha","Pipa","Carrossel","Bambolê","Patins","Escorregador","Gangorra","Quebra-cabeça","Bicicleta"]},
     {"id":34,"topico":"Contos de Fada","palavras":["Cinderela","Branca de Neve","Chapeuzinho Vermelho","Rapunzel","Pinóquio","Aladdin","João e Maria","A Bela e a Fera","O Príncipe Sapo","O Patinho Feio","A Fada do Dente","A Cigarra e a Formiga","A Lebre e a Tartaruga","Peter Pan","João e o pé de feijão","Robin Hood"]},
     {"id":35,"topico":"Países do Mundo 2","palavras":["Venezuela","Índia","Austrália","Turquia","Coreia do Norte","África do Sul","Israel","Colômbia","Chile","Grécia","Marrocos","Paraguai","Cuba","Peru","Bolivia","Holanda"]},
@@ -361,7 +455,7 @@ const DEFAULT_DATA = {
     votacao: "Após todos falarem, todos se preparam para apontar para o camaleão, e ao mesmo tempo, todos apontam quem é o Camaleão. O jogador mais votado revela sua carta.",
     camaleao_pego: "Se o Camaleão for pego, ele tem UMA chance de adivinhar a palavra secreta. Se acertar, ele empata. Se errar, os outros vencem.",
     pontuacao: "Camaleão escapa: 2pts para o Camaleão | Camaleão pego mas adivinha: 1pt para o Camaleão | Camaleão pego e erra: 2pts para cada outro jogador",
-    vence: "Primeiro jogador a atingir 5 pontos vence!",
+    vence: "Primeiro a atingir 5 pontos vence!",
     dados: "Use 2 dados de 12 faces. Um dado = linha (1–12), outro dado = coluna (1–12). A célula marcada com a cor indica sua palavra secreta.",
     jogadores: "3 a 8 jogadores | 3 jogadores: Camaleão tem 2 tentativas"
   }
@@ -373,8 +467,30 @@ const DEFAULT_DATA = {
 let data = JSON.parse(JSON.stringify(DEFAULT_DATA));
 let editIdx = -1, isAdding = false;
 const THEMES = ['t0','t1','t2','t3','t4','t5','t6','t7'];
-const SECTIONS = {topics:true, codes:true, backs:false, rules:true};
-const NUM_CODE_CARDS = 7; // 7 normais + 1 camaleão = 8 total (para 8 jogadores)
+const SECTIONS = { rules: true };
+const PAPER_SIZES = {
+  'A4':      { w:210,   h:297   },
+  'A3':      { w:297,   h:420   },
+  'Letter':  { w:215.9, h:279.4 },
+  'Legal':   { w:215.9, h:355.6 },
+  'Tabloid': { w:279.4, h:431.8 },
+};
+const CARD_PRESETS = {
+  '4x6in': { w:101.6,  h:152.4  },
+  'poker':  { w:63.5,   h:88.9   },
+  'tarot':  { w:69.85,  h:120.65 },
+  'mini':   { w:50.8,   h:71.1   },
+};
+let PAPER_SIZE     = 'A4';
+let ORIENTATION    = 'portrait';
+let CARD_W_MM      = 101.6;
+let CARD_H_MM      = 152.4;
+let PAGE_MARGIN_MM = 8;
+let NUM_CODE_CARDS = 7;
+let PRINT_FROM = 0;
+let PRINT_COUNT = null;  // null = all remaining
+let PRINT_CHAMELEON = true;
+let PRINT_MODE = 'fronts'; // 'fronts' | 'backs' | 'both'
 
 const stored = localStorage.getItem('camaleao_brazuca');
 if (stored) { try { data = JSON.parse(stored); } catch(e) {} }
@@ -592,9 +708,9 @@ const NUM_COLORS = [
   '#ae2012','#2d8653','#d4600a','#023e8a','#7b2d8b','#4a5e1a'
 ];
 
-// Bloco central do camaleão: linhas 6-8, colunas 6-8 (índices 5-7)
-const CHAM_ROWS = [5,6,7];
-const CHAM_COLS = [5,6,7];
+// Bloco central do camaleão: 2×2 centrado na grade 12×12 (índices 5-6)
+const CHAM_ROWS = [5,6];
+const CHAM_COLS = [5,6];
 
 function buildCodeCard(isChameleon) {
   const d = document.createElement('div');
@@ -644,8 +760,8 @@ function buildCodeCard(isChameleon) {
         return cells[c];
       };
 
-      const cellTL = getCell(5, 5); // top-left do bloco 3×3
-      const cellBR = getCell(7, 7); // bottom-right
+      const cellTL = getCell(5, 5); // top-left do bloco 2×2 centrado
+      const cellBR = getCell(6, 6); // bottom-right
 
       if (!cellTL || !cellBR) return;
 
@@ -664,7 +780,7 @@ function buildCodeCard(isChameleon) {
         display:flex;align-items:center;justify-content:center;
         border-radius:3px;
         z-index:10;
-        font-size:1.8rem;
+        font-size:calc(var(--cs) * 2rem);
         line-height:1;
         box-shadow:0 0 0 2px #25a05a;
         pointer-events:none;
@@ -748,55 +864,144 @@ function buildRulesCard() {
 /* ══════════════════════════════════════
    RENDER PREVIEW
 ══════════════════════════════════════ */
-function toggleSection(name) {
-  SECTIONS[name] = !SECTIONS[name];
-  // Update button visual state
-  const btn = document.getElementById('tog-'+name);
-  if (btn) {
-    btn.classList.toggle('toggle-on',  SECTIONS[name]);
-    btn.classList.toggle('toggle-off', !SECTIONS[name]);
-  }
-  renderPreview();
+function computeGrid() {
+  const p = PAPER_SIZES[PAPER_SIZE];
+  let pw = p.w, ph = p.h;
+  if (ORIENTATION === 'landscape') [pw, ph] = [ph, pw];
+  const cols = Math.max(1, Math.floor((pw - 2*PAGE_MARGIN_MM) / CARD_W_MM));
+  const rows = Math.max(1, Math.floor((ph - 2*PAGE_MARGIN_MM) / CARD_H_MM));
+  return { cols, rows };
 }
 
-function addLabel(grid, text) {
-  const l=document.createElement('div');
-  l.className='section-label';
-  l.textContent=text;
-  grid.appendChild(l);
+function updatePrintStyles() {
+  let s = document.getElementById('dyn-print');
+  if (!s) { s = document.createElement('style'); s.id = 'dyn-print'; document.head.appendChild(s); }
+  const p = PAPER_SIZES[PAPER_SIZE];
+  const sz = ORIENTATION === 'landscape' ? `${p.h}mm ${p.w}mm` : `${p.w}mm ${p.h}mm`;
+  s.textContent = `@page{size:${sz};margin:${PAGE_MARGIN_MM}mm;}`;
+  const root = document.documentElement.style;
+  root.setProperty('--card-w', CARD_W_MM + 'mm');
+  root.setProperty('--card-h', CARD_H_MM + 'mm');
+  root.setProperty('--cs', (CARD_W_MM / 63).toFixed(3));
+}
+
+function setPaper(v)       { PAPER_SIZE = v; renderPreview(); }
+function setOrientation(v) { ORIENTATION = v; renderPreview(); }
+function setCardPreset(v) {
+  const preset = CARD_PRESETS[v];
+  const customEl = document.getElementById('card-custom-inputs');
+  if (customEl) customEl.style.display = preset ? 'none' : 'flex';
+  if (preset) { CARD_W_MM = preset.w; CARD_H_MM = preset.h; renderPreview(); }
+}
+function setCardCustom() {
+  const w = parseFloat(document.getElementById('inp-card-w').value);
+  const h = parseFloat(document.getElementById('inp-card-h').value);
+  if (w > 0 && h > 0) { CARD_W_MM = w; CARD_H_MM = h; renderPreview(); }
+}
+
+function setPrintMode(v)  { PRINT_MODE = v; renderPreview(); }
+function setPrintFrom(v)  { PRINT_FROM = Math.max(0, (parseInt(v) || 1) - 1); renderPreview(); }
+function setPrintCount(v) { PRINT_COUNT = (v === '' || isNaN(parseInt(v))) ? null : Math.max(0, parseInt(v)); renderPreview(); }
+function setNumCodes(v)   { NUM_CODE_CARDS = Math.min(7, Math.max(0, parseInt(v) || 0)); renderPreview(); }
+function setChameleon(b)  { PRINT_CHAMELEON = b; renderPreview(); }
+function setRules(b)      { SECTIONS.rules = b; renderPreview(); }
+
+function syncPrintControls() {
+  const total = data.cards.length;
+  const totalEl = document.getElementById('topic-count-label');
+  if (totalEl) {
+    const from   = Math.min(PRINT_FROM, total);
+    const count  = PRINT_COUNT !== null ? PRINT_COUNT : total - from;
+    const actual = Math.min(count, Math.max(0, total - from));
+    totalEl.textContent = `→ ${actual} de ${total} cartas`;
+  }
+  const { cols, rows } = computeGrid();
+  const gridEl = document.getElementById('grid-info');
+  if (gridEl) gridEl.textContent = `→ ${cols}×${rows} = ${cols*rows} carta(s)/página`;
+}
+
+function mirrorColumns(page, cols) {
+  const out = [];
+  const rows = Math.ceil(page.length / cols);
+  for (let row = 0; row < rows; row++) {
+    const slice = page.slice(row * cols, (row + 1) * cols);
+    out.push(...slice.reverse());
+  }
+  return out;
+}
+
+function buildCardEl(entry) {
+  if (!entry) { const d=document.createElement('div'); d.className='card-blank'; return d; }
+  return entry.buildFn();
+}
+
+function buildBackEl(entry) {
+  if (!entry) { const d=document.createElement('div'); d.className='card-blank'; return d; }
+  return buildBackCard(entry.backType);
+}
+
+function makePrintPage(entries, buildElFn, cols, rows) {
+  const page = document.createElement('div');
+  page.className = 'print-page';
+  page.style.gridTemplateColumns = `repeat(${cols},${CARD_W_MM}mm)`;
+  page.style.gridTemplateRows    = `repeat(${rows},${CARD_H_MM}mm)`;
+  entries.forEach(e => page.appendChild(buildElFn(e)));
+  return page;
 }
 
 function renderPreview() {
-  const grid=document.getElementById('preview-grid');
-  grid.innerHTML='';
+  updatePrintStyles();
+  syncPrintControls();
+  const grid = document.getElementById('preview-grid');
+  grid.innerHTML = '';
 
-  if(SECTIONS.topics){
-    addLabel(grid,`📋 Cartas de Tópico (${data.cards.length})`);
-    data.cards.forEach((c,i)=>grid.appendChild(buildTopicCard(c,i)));
+  // Collect cards to print
+  const frontCards = [];
+
+  const total = data.cards.length;
+  const from  = Math.min(PRINT_FROM, total);
+  const count = PRINT_COUNT !== null ? PRINT_COUNT : total - from;
+  const end   = Math.min(from + count, total);
+  for (let i = from; i < end; i++) {
+    const idx = i; // capture for closure
+    frontCards.push({ buildFn: () => buildTopicCard(data.cards[idx], idx), backType: 'topic' });
   }
 
-  if(SECTIONS.codes){
-    addLabel(grid,`🔢 Cartões de Código — ${NUM_CODE_CARDS} normais + 1 Camaleão (todos idênticos)`);
-    // Cartões normais
-    for(let v=1;v<=NUM_CODE_CARDS;v++) grid.appendChild(buildCodeCard(false));
-    // Cartão do Camaleão — visualmente idêntico
-    grid.appendChild(buildCodeCard(true));
+  for (let v = 0; v < NUM_CODE_CARDS; v++)
+    frontCards.push({ buildFn: () => buildCodeCard(false), backType: 'code' });
+  if (PRINT_CHAMELEON)
+    frontCards.push({ buildFn: () => buildCodeCard(true), backType: 'code' });
+  if (SECTIONS.rules)
+    frontCards.push({ buildFn: () => buildRulesCard(), backType: 'code' });
+
+  if (frontCards.length === 0) {
+    const msg = document.createElement('p');
+    msg.style.cssText = 'color:#888;font-size:.9rem;padding:1rem;';
+    msg.textContent = 'Nenhuma carta selecionada.';
+    grid.appendChild(msg);
+    return;
   }
 
-  if(SECTIONS.rules){
-    addLabel(grid,'📖 Carta de Regras');
-    grid.appendChild(buildRulesCard());
+  const { cols, rows } = computeGrid();
+  const cardsPerPage = cols * rows;
+
+  // Group into pages, pad last page with nulls for back alignment
+  const pages = [];
+  for (let i = 0; i < frontCards.length; i += cardsPerPage) {
+    const slice = frontCards.slice(i, i + cardsPerPage);
+    while (slice.length < cardsPerPage) slice.push(null);
+    pages.push(slice);
   }
 
-  if(SECTIONS.backs){
-    const topicCount = data.cards.length;
-    const codeCount  = NUM_CODE_CARDS + 1 + 1; // normais + camaleão + regras
-    addLabel(grid,`🔄 Versos — Tópicos (azul): ${topicCount} · Código/Camaleão/Regras (verde): ${codeCount}`);
-    // Versos azuis para cartas de tópico
-    for(let i=0;i<topicCount;i++) grid.appendChild(buildBackCard('topic'));
-    // Versos verdes para cartões de código, camaleão e regras
-    for(let i=0;i<codeCount;i++) grid.appendChild(buildBackCard('code'));
-  }
+  const needFronts = (PRINT_MODE === 'fronts' || PRINT_MODE === 'both');
+  const needBacks  = (PRINT_MODE === 'backs'  || PRINT_MODE === 'both');
+
+  if (needFronts)
+    pages.forEach(p => grid.appendChild(makePrintPage(p, buildCardEl, cols, rows)));
+
+  // Back pages: columns mirrored so they align after flipping on short edge
+  if (needBacks)
+    pages.forEach(p => grid.appendChild(makePrintPage(mirrorColumns(p, cols), buildBackEl, cols, rows)));
 }
 
 /* ══════════════════════════════════════
