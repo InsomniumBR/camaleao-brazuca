@@ -167,21 +167,21 @@ textarea{resize:vertical;min-height:70px;}
 /* Code card */
 .code-card{background:#1a2a1a;border:1.5px solid #0a1a0a;}
 .code-topband{height:calc(var(--cs)*18px);background:#0d1f0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.code-topband span{font-size:calc(var(--cs)*.5rem);letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#a8d8a8;}
+.code-topband span{font-size:calc(var(--cs)*.5rem);letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#fff;}
 .code-header{padding:calc(var(--cs)*3px) calc(var(--cs)*6px) calc(var(--cs)*2px);flex-shrink:0;}
-.code-title{font-family:'Baloo 2',cursive;font-size:calc(var(--cs)*.65rem);font-weight:900;color:#a8d8a8;line-height:1.1;}
-.code-sub{font-size:calc(var(--cs)*.42rem);font-weight:700;color:#6aaa6a;margin-top:1px;line-height:1.4;}
+.code-title{font-family:'Baloo 2',cursive;font-size:calc(var(--cs)*.65rem);font-weight:900;color:#fff;line-height:1.1;}
+.code-sub{font-size:calc(var(--cs)*.42rem);font-weight:700;color:#fff;margin-top:1px;line-height:1.4;}
 .code-grid-wrap{flex:1;padding:1px 4px 1px 3px;display:flex;flex-direction:column;gap:calc(var(--cs)*1.5px);}
 .code-col-nums{display:flex;padding-left:calc(var(--cs)*9px);margin-bottom:calc(var(--cs)*1.5px);}
-.code-col-nums span{flex:1;text-align:center;font-size:calc(var(--cs)*.32rem);font-weight:800;color:#5a8a5a;font-family:'Baloo 2',cursive;}
+.code-col-nums span{flex:1;text-align:center;font-size:calc(var(--cs)*.32rem);font-weight:800;color:#fff;font-family:'Baloo 2',cursive;}
 .code-row{display:flex;gap:calc(var(--cs)*1.5px);flex:1;align-items:stretch;}
-.code-row-num{font-size:calc(var(--cs)*.32rem);font-weight:800;color:#5a8a5a;font-family:'Baloo 2',cursive;
+.code-row-num{font-size:calc(var(--cs)*.32rem);font-weight:800;color:#fff;font-family:'Baloo 2',cursive;
   width:calc(var(--cs)*9px);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .code-cell{flex:1;display:flex;align-items:center;justify-content:center;border-radius:calc(var(--cs)*2px);
   font-size:calc(var(--cs)*.36rem);font-weight:900;font-family:'Baloo 2',cursive;color:#fff;}
 
 .code-botband{height:calc(var(--cs)*13px);background:#0d1f0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.code-botband span{font-size:calc(var(--cs)*.38rem);font-weight:700;color:#6aaa6a;letter-spacing:.5px;}
+.code-botband span{font-size:calc(var(--cs)*.38rem);font-weight:700;color:#fff;letter-spacing:.5px;}
 
 /* Back card — identical for ALL cards */
 .back-card{background:linear-gradient(145deg,#1b6b3a,#0d3d20);border:1.5px solid #0a2a15;}
@@ -201,17 +201,17 @@ textarea{resize:vertical;min-height:70px;}
 /* Rules card */
 .rules-card{background:#fffdf4;border:1.5px solid #bbb;}
 .rules-topband{height:calc(var(--cs)*22px);background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.rules-topband span{font-size:calc(var(--cs)*.6rem);letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#fff;}
-.rules-body{flex:1;padding:calc(var(--cs)*2px) calc(var(--cs)*7px);overflow:hidden;}
+.rules-topband span{font-size:calc(var(--cs)*.52rem);letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#fff;}
+.rules-body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-between;padding:calc(var(--cs)*4px) calc(var(--cs)*7px);overflow:hidden;}
 .rules-maintitle{display:none;}
-.rules-sec{margin-bottom:calc(var(--cs)*2px);}
-.rules-sec-title{font-size:calc(var(--cs)*.55rem);font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--green);margin-bottom:0;}
-.rules-sec-text{font-size:calc(var(--cs)*.48rem);font-weight:600;color:#333;line-height:1.35;}
+.rules-sec{margin-bottom:0;}
+.rules-sec-title{font-size:calc(var(--cs)*.50rem);font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--green);margin-bottom:0;}
+.rules-sec-text{font-size:calc(var(--cs)*.44rem);font-weight:600;color:#333;line-height:1.35;}
 .rules-scores{display:flex;gap:calc(var(--cs)*3px);margin-top:calc(var(--cs)*2px);flex-wrap:wrap;}
-.rules-score-item{background:#f0f8f0;border-radius:3px;padding:calc(var(--cs)*2px) calc(var(--cs)*4px);font-size:calc(var(--cs)*.5rem);
+.rules-score-item{background:#f0f8f0;border-radius:3px;padding:calc(var(--cs)*2px) calc(var(--cs)*4px);font-size:calc(var(--cs)*.46rem);
   font-weight:700;color:var(--green);line-height:1.4;text-align:center;flex:1;min-width:0;}
 .rules-botband{height:calc(var(--cs)*18px);background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.rules-botband span{font-size:calc(var(--cs)*.52rem);font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#fff;opacity:.9;}
+.rules-botband span{font-size:calc(var(--cs)*.44rem);font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#fff;opacity:.9;}
 
 /* ── PRINT ── */
 @media print{
@@ -223,7 +223,7 @@ textarea{resize:vertical;min-height:70px;}
   .controls,.stitle,.infobox,.print-controls{display:none!important;}
   .section-label{display:none!important;}
   .preview-grid{display:block;gap:0;padding:0;}
-  .print-page{outline:none!important;margin:0!important;}
+  .print-page{outline:none!important;margin:0 auto!important;}
 }
 </style>
 </head>
@@ -450,14 +450,14 @@ const DEFAULT_DATA = {
     {"id":39,"topico":"Super heróis","palavras":["Superman","Batman","Homem Aranha","Homem de Ferro","Hulk","Worlverine","Flash","Deadpool","Capitão América","Arqueiro Verde","Robinhood","Robocop","Zorro","He-Man","Chapolin","Tartarugas Ninja"]},
     {"id":40,"topico":"Personagens da Disney","palavras":["Mickey Mouse","Pato Donald","Wall-E","Branca de Neve","Cinderela","Aladim","Dumbo","Bambi","Tigrão","Tio Patinhas","Rei Leão","Pinóquio","Nemo","Tarzan","Cruela de Vil","Ursinho Pooh"]}],
   rules: {
-    objetivo: "Todos recebem uma carta de código — exceto o Camaleão, que recebe a carta especial. Role os dados: todos consultam sua grade e descobrem a palavra secreta. O Camaleão não sabe a palavra e precisa se disfarçar!",
-    rodada: "Começando pelo dealer, cada jogador diz UMA palavra relacionada à palavra secreta. O Camaleão deve inventar uma palavra convincente sem conhecer a palavra secreta.",
-    votacao: "Após todos falarem, todos se preparam para apontar para o camaleão, e ao mesmo tempo, todos apontam quem é o Camaleão. O jogador mais votado revela sua carta.",
-    camaleao_pego: "Se o Camaleão for pego, ele tem UMA chance de adivinhar a palavra secreta. Se acertar, ele empata. Se errar, os outros vencem.",
-    pontuacao: "Camaleão escapa: 2pts para o Camaleão | Camaleão pego mas adivinha: 1pt para o Camaleão | Camaleão pego e erra: 2pts para cada outro jogador",
+    objetivo: "Descubra quem é o Camaleão! Todos recebem um cartão de código, um dos cartões de código é diferente (Camaleão). Role o primeiro dado para definir a linha e o segundo dado para definir a coluna. O conjunto linha e coluna define o número do tópico a ser usado da carta de tópicos. O Camaleão não sabe o número do tópico e tem que improvisar para ser convicente!",
+    dados: "Use 2 dados de 12 faces: Dado 1 = Linha, Dado 2 = Coluna. A célula colorida na interseção indica o número do tópico da rodada.",
+    rodada: "Começando pelo dealer, cada jogador diz UMA palavra relacionada ao tópico escolhido. O Camaleão tenta descobrir o tópico escolhido e falar uma palavra convincente na sua vez.",
+    votacao: "Após todos falarem as palavras, os jogadores falam \"3,2,1...\" e todos apontam simultaneamente para quem acham que é o Camaleão. O jogador mais votado revela se é o camaleão.",
+    camaleao_pego: "Se é pego, o Camaleão tem UMA chance de adivinhar o tópico. Se ele acertar: ganha 1 ponto. Se ele errar: os demais jogadores ganham 2 pontos.",
+    pontuacao: "Camaleão escapa: 2pts | Pego mas adivinha: 1pt | Pego e erra: 2pts p/ cada jogador",
     vence: "Primeiro a atingir 5 pontos vence!",
-    dados: "Use 2 dados de 12 faces. Um dado = linha (1–12), outro dado = coluna (1–12). A célula marcada com a cor indica sua palavra secreta.",
-    jogadores: "3 a 8 jogadores | 3 jogadores: Camaleão tem 2 tentativas"
+    jogadores: "Jogam 3 a 8 jogadores."
   }
 };
 
@@ -702,6 +702,27 @@ function generateMasterGrid() {
 
 const MASTER_GRID = generateMasterGrid();
 
+function generateChameleonGrid() {
+  const nums=[];
+  for(let n=1;n<=16;n++) nums.push(...Array(9).fill(n));
+  const shuffled=seededShuffle(nums,20251031);
+  const grid=[];
+  for(let r=0;r<12;r++) grid.push(shuffled.slice(r*12,r*12+12));
+  // Fix any cell that coincidentally matches MASTER_GRID
+  for(let r=0;r<12;r++) for(let c=0;c<12;c++) {
+    if(grid[r][c]===MASTER_GRID[r][c]) {
+      for(let r2=0;r2<12;r2++) for(let c2=0;c2<12;c2++) {
+        if((r2!==r||c2!==c)&&grid[r2][c2]!==MASTER_GRID[r][c]&&grid[r][c]!==MASTER_GRID[r2][c2]) {
+          [grid[r][c],grid[r2][c2]]=[grid[r2][c2],grid[r][c]];
+          r2=c2=99;
+        }
+      }
+    }
+  }
+  return grid;
+}
+const CHAMELEON_GRID = generateChameleonGrid();
+
 const NUM_COLORS = [
   '#c1121f','#e07b00','#2a9d8f','#1d6fa4','#6a0572',
   '#9a8800','#1b6b3a','#c0392b','#0077b6','#7b2fbe',
@@ -723,8 +744,9 @@ function buildCodeCard(isChameleon) {
   for(let r=0;r<12;r++){
     let cells='';
     for(let c=0;c<12;c++){
-      const val=MASTER_GRID[r][c];
-      cells+=`<div class="code-cell" style="background:${NUM_COLORS[val-1]};color:#fff;">${val}</div>`;
+      const colorVal=MASTER_GRID[r][c];
+      const val=(isChameleon?CHAMELEON_GRID:MASTER_GRID)[r][c];
+      cells+=`<div class="code-cell" style="background:${NUM_COLORS[colorVal-1]};color:#fff;">${val}</div>`;
     }
     rows+=`<div class="code-row"><div class="code-row-num">${r+1}</div>${cells}</div>`;
   }
@@ -837,6 +859,10 @@ function buildRulesCard() {
         <div class="rules-sec-text">${r.objetivo||''}</div>
       </div>
       <div class="rules-sec">
+        <div class="rules-sec-title">🎲 Os Dados</div>
+        <div class="rules-sec-text">${r.dados||''}</div>
+      </div>
+      <div class="rules-sec">
         <div class="rules-sec-title">🔄 Rodada</div>
         <div class="rules-sec-text">${r.rodada||''}</div>
       </div>
@@ -853,8 +879,8 @@ function buildRulesCard() {
         <div class="rules-scores">${scores}</div>
       </div>
       <div class="rules-sec">
-        <div class="rules-sec-title">🎲 Dados &amp; Jogadores</div>
-        <div class="rules-sec-text">${r.dados||''} — ${r.jogadores||''}</div>
+        <div class="rules-sec-title">👥 Jogadores</div>
+        <div class="rules-sec-text">${r.jogadores||''}</div>
       </div>
     </div>
     <div class="rules-botband"><span>🥇 ${r.vence||'Primeiro a 5 pontos vence!'}</span></div>`;
