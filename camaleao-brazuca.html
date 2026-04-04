@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Camaleão Brazuca</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800;900&family=Nunito:wght@400;600;700;800&family=Roboto+Condensed:wght@700;800&family=Oswald:wght@500;600;700&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
 :root {
   --green:  #1b6b3a;
@@ -15,9 +17,10 @@
   --teal:   #0a9396;
   --cream:  #fffdf4;
   --dark:   #1a1a2e;
-  --card-w: 4in;
-  --card-h: 6in;
-  --cs: 1.613;
+  --card-w: 4.5in;
+  --card-h: 6.5in;
+  --cs: 1.687;
+  --bleed: 4mm;
   --card-font: 'Nunito';
 }
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -62,9 +65,9 @@ body{font-family:'Nunito',sans-serif;background:#eef4ee;color:var(--dark);}
 .back-card-blue .back-bg{position:absolute;inset:0;
   background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.06) 0%,transparent 60%),
              radial-gradient(circle at 70% 70%,rgba(245,200,0,.09) 0%,transparent 60%);}
-.back-card-blue .back-inner{position:absolute;inset:5px;border:1.5px solid rgba(255,255,255,.18);border-radius:4px;}
+.back-card-blue .back-inner{position:absolute;inset:calc(var(--bleed) + 5px);border:1.5px solid rgba(255,255,255,.18);border-radius:4px;}
 .back-card-blue .back-content{position:relative;z-index:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;height:100%;text-align:center;padding:1rem;}
+  align-items:center;justify-content:center;height:100%;text-align:center;padding:calc(var(--bleed) + 1rem);}
 .back-card-blue .back-dot.y{background:var(--yellow);}
 
 .stitle{font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:800;color:var(--green);
@@ -119,19 +122,19 @@ textarea{resize:vertical;min-height:70px;}
 }
 .card-blank{width:var(--card-w);height:var(--card-h);visibility:hidden;box-sizing:border-box;}
 
-.card-base{width:var(--card-w);height:var(--card-h);border-radius:7px;overflow:hidden;
+.card-base{width:var(--card-w);height:var(--card-h);border-radius:0;overflow:hidden;
   position:relative;display:flex;flex-direction:column;
   page-break-inside:avoid;break-inside:avoid;flex-shrink:0;font-family:'Nunito',sans-serif;}
 
 /* Topic card */
 .topic-card{background:var(--cream);border:1.5px solid #bbb;}
-.tc-topband{height:calc(var(--cs)*18px);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tc-topband{height:calc(var(--cs)*18px + var(--bleed));padding-top:var(--bleed);padding-left:var(--bleed);padding-right:var(--bleed);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .tc-topband span{font-size:calc(var(--cs)*.52rem);letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#fff;}
-.tc-head{padding:calc(var(--cs)*3px) calc(var(--cs)*6px) calc(var(--cs)*2px);text-align:center;flex-shrink:0;}
+.tc-head{padding:calc(var(--cs)*3px) calc(var(--cs)*6px + var(--bleed)) calc(var(--cs)*2px);text-align:center;flex-shrink:0;}
 .tc-num{font-size:calc(var(--cs)*.55rem);font-weight:900;letter-spacing:1px;text-transform:uppercase;opacity:.85;}
 .tc-title{font-family:var(--card-font),cursive;font-size:calc(var(--cs)*.82rem);font-weight:900;line-height:1.1;color:var(--dark);}
 .tc-divider{height:2px;margin:0 7px;border-radius:2px;flex-shrink:0;}
-.tc-grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(8,1fr);padding:calc(var(--cs)*3px) calc(var(--cs)*4px);gap:calc(var(--cs)*2px);background:rgba(0,0,0,.04);border-radius:3px;overflow:hidden;}
+.tc-grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(8,1fr);padding:calc(var(--cs)*3px) calc(var(--cs)*4px + var(--bleed));gap:calc(var(--cs)*2px);background:rgba(0,0,0,.04);border-radius:3px;overflow:hidden;}
 .tc-cell{
   display:flex;align-items:center;justify-content:center;
   position:relative;border-radius:5px;min-height:0;
@@ -153,7 +156,7 @@ textarea{resize:vertical;min-height:70px;}
   font-family:var(--card-font),cursive;
   color:var(--dark);
 }
-.tc-botband{height:calc(var(--cs)*13px);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tc-botband{height:calc(var(--cs)*13px + var(--bleed));padding-bottom:var(--bleed);padding-left:var(--bleed);padding-right:var(--bleed);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .tc-botband span{font-size:calc(var(--cs)*.4rem);font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#fff;opacity:.85;}
 
 /* themes */
@@ -166,12 +169,12 @@ textarea{resize:vertical;min-height:70px;}
 
 /* Code card */
 .code-card{background:#1a2a1a;border:1.5px solid #0a1a0a;}
-.code-topband{height:calc(var(--cs)*18px);background:#0d1f0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.code-topband{height:calc(var(--cs)*18px + var(--bleed));padding-top:var(--bleed);padding-left:var(--bleed);padding-right:var(--bleed);background:#0d1f0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .code-topband span{font-size:calc(var(--cs)*.5rem);letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#fff;}
-.code-header{padding:calc(var(--cs)*3px) calc(var(--cs)*6px) calc(var(--cs)*2px);flex-shrink:0;}
+.code-header{padding:calc(var(--cs)*3px) calc(var(--cs)*6px + var(--bleed)) calc(var(--cs)*2px);flex-shrink:0;}
 .code-title{font-family:'Baloo 2',cursive;font-size:calc(var(--cs)*.65rem);font-weight:900;color:#fff;line-height:1.1;}
 .code-sub{font-size:calc(var(--cs)*.42rem);font-weight:700;color:#fff;margin-top:1px;line-height:1.4;}
-.code-grid-wrap{flex:1;padding:1px 4px 1px 3px;display:flex;flex-direction:column;gap:calc(var(--cs)*1.5px);}
+.code-grid-wrap{flex:1;padding:1px calc(4px + var(--bleed)) 1px calc(3px + var(--bleed));display:flex;flex-direction:column;gap:calc(var(--cs)*1.5px);}
 .code-col-nums{display:flex;padding-left:calc(var(--cs)*9px);margin-bottom:calc(var(--cs)*1.5px);}
 .code-col-nums span{flex:1;text-align:center;font-size:calc(var(--cs)*.32rem);font-weight:800;color:#fff;font-family:'Baloo 2',cursive;}
 .code-row{display:flex;gap:calc(var(--cs)*1.5px);flex:1;align-items:stretch;}
@@ -180,17 +183,17 @@ textarea{resize:vertical;min-height:70px;}
 .code-cell{flex:1;display:flex;align-items:center;justify-content:center;border-radius:calc(var(--cs)*2px);
   font-size:calc(var(--cs)*.36rem);font-weight:900;font-family:'Baloo 2',cursive;color:#fff;}
 
-.code-botband{height:calc(var(--cs)*13px);background:#0d1f0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.code-botband{height:calc(var(--cs)*13px + var(--bleed));padding-bottom:var(--bleed);padding-left:var(--bleed);padding-right:var(--bleed);background:#0d1f0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .code-botband span{font-size:calc(var(--cs)*.38rem);font-weight:700;color:#fff;letter-spacing:.5px;}
 
 /* Back card — identical for ALL cards */
 .back-card{background:linear-gradient(145deg,#1b6b3a,#0d3d20);border:1.5px solid #0a2a15;}
-.back-inner{position:absolute;inset:5px;border:1.5px solid rgba(255,255,255,.15);border-radius:4px;pointer-events:none;}
+.back-inner{position:absolute;inset:calc(var(--bleed) + 5px);border:1.5px solid rgba(255,255,255,.15);border-radius:4px;pointer-events:none;}
 .back-bg{position:absolute;inset:0;
   background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.06) 0%,transparent 60%),
              radial-gradient(circle at 70% 70%,rgba(245,200,0,.07) 0%,transparent 60%);}
 .back-content{position:relative;z-index:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;height:100%;text-align:center;padding:1rem;}
+  align-items:center;justify-content:center;height:100%;text-align:center;padding:calc(var(--bleed) + 1rem);}
 .back-emoji{font-size:calc(var(--cs)*2.4rem);filter:drop-shadow(0 2px 8px rgba(0,0,0,.4));margin-bottom:.35rem;}
 .back-title{font-family:'Baloo 2',cursive;font-size:calc(var(--cs)*.88rem);font-weight:900;color:#fff;line-height:1.1;}
 .back-title .hl{color:var(--yellow);font-size:calc(var(--cs)*1rem);display:block;}
@@ -200,9 +203,9 @@ textarea{resize:vertical;min-height:70px;}
 
 /* Rules card */
 .rules-card{background:#fffdf4;border:1.5px solid #bbb;}
-.rules-topband{height:calc(var(--cs)*22px);background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rules-topband{height:calc(var(--cs)*22px + var(--bleed));padding-top:var(--bleed);padding-left:var(--bleed);padding-right:var(--bleed);background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .rules-topband span{font-size:calc(var(--cs)*.52rem);letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#fff;}
-.rules-body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-between;padding:calc(var(--cs)*4px) calc(var(--cs)*7px);overflow:hidden;}
+.rules-body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-between;padding:calc(var(--cs)*4px) calc(var(--cs)*7px + var(--bleed));overflow:hidden;}
 .rules-maintitle{display:none;}
 .rules-sec{margin-bottom:0;}
 .rules-sec-title{font-size:calc(var(--cs)*.50rem);font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--green);margin-bottom:0;}
@@ -210,7 +213,7 @@ textarea{resize:vertical;min-height:70px;}
 .rules-scores{display:flex;gap:calc(var(--cs)*3px);margin-top:calc(var(--cs)*2px);flex-wrap:wrap;}
 .rules-score-item{background:#f0f8f0;border-radius:3px;padding:calc(var(--cs)*2px) calc(var(--cs)*4px);font-size:calc(var(--cs)*.46rem);
   font-weight:700;color:var(--green);line-height:1.4;text-align:center;flex:1;min-width:0;}
-.rules-botband{height:calc(var(--cs)*18px);background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rules-botband{height:calc(var(--cs)*18px + var(--bleed));padding-bottom:var(--bleed);padding-left:var(--bleed);padding-right:var(--bleed);background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .rules-botband span{font-size:calc(var(--cs)*.44rem);font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#fff;opacity:.9;}
 
 /* ── PRINT ── */
@@ -225,6 +228,29 @@ textarea{resize:vertical;min-height:70px;}
   .preview-grid{display:block;gap:0;padding:0;}
   .print-page{outline:none!important;margin:0 auto!important;}
 }
+
+/* ── IMAGES TAB ── */
+.img-card-grid{display:flex;flex-wrap:wrap;gap:1rem;padding:.5rem 0;}
+.img-card-item{display:flex;flex-direction:column;align-items:center;gap:.4rem;}
+.img-card-item label{font-size:.72rem;font-weight:700;color:#444;text-align:center;max-width:130px;line-height:1.3;}
+.img-thumb-outer{position:relative;overflow:hidden;flex-shrink:0;border:1px solid #ddd;border-radius:4px;}
+.img-thumb-inner{transform-origin:top left;pointer-events:none;}
+.img-card-actions{display:flex;align-items:center;gap:.4rem;}
+.img-card-chk{width:16px;height:16px;cursor:pointer;}
+.img-thumb-outer{cursor:zoom-in;}
+
+/* ── LIGHTBOX ── */
+#img-lightbox{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;}
+.img-lb-bg{position:absolute;inset:0;background:rgba(0,0,0,.8);}
+.img-lb-box{position:relative;z-index:1;display:flex;flex-direction:column;width:92vw;height:92vh;background:#1a1a1a;border-radius:10px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+.img-lb-toolbar{display:flex;align-items:center;justify-content:space-between;padding:.5rem .75rem;background:#111;color:#fff;flex-shrink:0;gap:.5rem;}
+.img-lb-label{font-size:.85rem;font-weight:700;color:#bbb;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.img-lb-btns{display:flex;align-items:center;gap:.3rem;flex-shrink:0;}
+.img-lb-btns button{background:#333;color:#fff;border:none;border-radius:5px;cursor:pointer;padding:.28rem .6rem;font-size:.85rem;font-weight:700;line-height:1;}
+.img-lb-btns button:hover{background:#555;}
+#img-lb-zoom-pct{font-size:.82rem;font-weight:700;color:#888;min-width:46px;text-align:center;}
+.img-lb-viewport{flex:1;overflow:auto;background:#2a2a2a;display:flex;justify-content:center;align-items:flex-start;padding:1.5rem;}
+#img-lb-wrap{position:relative;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -246,6 +272,7 @@ textarea{resize:vertical;min-height:70px;}
     <button class="tab" onclick="switchTab('regras')">📖 Regras</button>
     <button class="tab" onclick="switchTab('json')">🛠️ Editor JSON</button>
     <button class="tab" onclick="switchTab('imprimir')">🖨️ Imprimir</button>
+    <button class="tab" onclick="switchTab('imagens')">🖼️ Imagens</button>
   </div>
 
   <!-- TÓPICOS -->
@@ -297,45 +324,55 @@ textarea{resize:vertical;min-height:70px;}
         <select id="sel-paper" style="font-size:.82rem;" onchange="setPaper(this.value)">
           <option value="A4">A4 (210×297mm)</option>
           <option value="A3">A3 (297×420mm)</option>
-          <option value="Letter">Letter (8.5"×11")</option>
+          <option value="Letter" selected>Letter (8.5"×11")</option>
           <option value="Legal">Legal (8.5"×14")</option>
           <option value="Tabloid">Tabloid (11"×17")</option>
         </select>
         <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
-          <input type="radio" name="orientation" value="portrait" checked onchange="setOrientation(this.value)"> Retrato
+          <input type="radio" name="orientation" value="portrait" onchange="setOrientation(this.value)"> Retrato
         </label>
         <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
-          <input type="radio" name="orientation" value="landscape" onchange="setOrientation(this.value)"> Paisagem
+          <input type="radio" name="orientation" value="landscape" checked onchange="setOrientation(this.value)"> Paisagem
         </label>
       </div>
 
       <div style="display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;">
         <strong style="font-size:.82rem;min-width:140px;">🃏 Tamanho da carta:</strong>
         <select id="sel-card-preset" style="font-size:.82rem;" onchange="setCardPreset(this.value)">
-          <option value="4x6in">4" × 6" (padrão)</option>
+          <option value="4x6in">4.5" × 6.5" (padrão, c/ sangria)</option>
           <option value="poker">2.5" × 3.5" (Poker)</option>
           <option value="tarot">2.75" × 4.75" (Tarô)</option>
           <option value="mini">2" × 2.8" (Mini)</option>
           <option value="custom">Personalizado...</option>
         </select>
         <span id="card-custom-inputs" style="display:none;gap:.4rem;align-items:center;">
-          <label style="font-size:.82rem;font-weight:700;">L <input type="number" id="inp-card-w" min="20" max="300" value="101.6" step="0.1" style="width:68px;" oninput="setCardCustom()"> mm</label>
-          <label style="font-size:.82rem;font-weight:700;">A <input type="number" id="inp-card-h" min="20" max="300" value="152.4" step="0.1" style="width:68px;" oninput="setCardCustom()"> mm</label>
+          <label style="font-size:.82rem;font-weight:700;">L <input type="number" id="inp-card-w" min="20" max="300" value="114.3" step="0.1" style="width:68px;" oninput="setCardCustom()"> mm</label>
+          <label style="font-size:.82rem;font-weight:700;">A <input type="number" id="inp-card-h" min="20" max="300" value="165.1" step="0.1" style="width:68px;" oninput="setCardCustom()"> mm</label>
         </span>
         <span id="grid-info" style="font-size:.78rem;color:#1b5e20;font-weight:700;"></span>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;">
+        <strong style="font-size:.82rem;min-width:140px;">✂️ Sangria:</strong>
+        <select class="sel-bleed" style="font-size:.82rem;" onchange="setBleed(this.value)">
+          <option value="0">0mm / 0px</option>
+          <option value="3.048">3mm / 108px</option>
+          <option value="4" selected>4mm / 142px</option>
+          <option value="9.144">9mm / 324px</option>
+        </select>
       </div>
 
       <div>
         <strong style="font-size:.82rem;">Modo de impressão:</strong>
         <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.35rem;">
           <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
-            <input type="radio" name="print-mode" value="fronts" checked onchange="setPrintMode(this.value)"> Somente Frentes
+            <input type="radio" name="print-mode" value="fronts" onchange="setPrintMode(this.value)"> Somente Frentes
           </label>
           <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
             <input type="radio" name="print-mode" value="backs" onchange="setPrintMode(this.value)"> Somente Versos
           </label>
           <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
-            <input type="radio" name="print-mode" value="both" onchange="setPrintMode(this.value)"> Frentes + Versos
+            <input type="radio" name="print-mode" value="both" checked onchange="setPrintMode(this.value)"> Frentes + Versos
           </label>
         </div>
         <div style="font-size:.74rem;color:#555;margin-top:.25rem;">
@@ -352,7 +389,7 @@ textarea{resize:vertical;min-height:70px;}
         </label>
         <label style="font-size:.82rem;font-weight:700;">
           Quantidade
-          <input type="number" id="inp-count" min="0" placeholder="todas" style="width:65px;"
+          <input type="number" id="inp-count" min="0" value="1" style="width:65px;"
                  oninput="setPrintCount(this.value)">
         </label>
         <span id="topic-count-label" style="font-size:.78rem;color:#1b5e20;font-weight:700;"></span>
@@ -362,7 +399,7 @@ textarea{resize:vertical;min-height:70px;}
         <strong style="font-size:.82rem;min-width:140px;">🔢 Cartões de Código:</strong>
         <label style="font-size:.82rem;font-weight:700;">
           Normais (0–7)
-          <input type="number" id="inp-codes" min="0" max="7" value="7" style="width:50px;"
+          <input type="number" id="inp-codes" min="0" max="7" value="1" style="width:50px;"
                  oninput="setNumCodes(this.value)">
         </label>
         <label style="font-size:.82rem;font-weight:700;cursor:pointer;">
@@ -384,6 +421,58 @@ textarea{resize:vertical;min-height:70px;}
     <div class="preview-grid" id="preview-grid"></div>
   </div>
 
+  <!-- IMAGENS -->
+  <div id="tab-imagens" class="tab-panel">
+    <div class="stitle">🖼️ Imagens das Cartas</div>
+    <div class="infobox">Selecione as cartas desejadas e clique em <strong>Baixar Selecionadas</strong> para obter um ZIP com as imagens JPG. Use o botão individual ⬇️ para baixar uma carta por vez.</div>
+    <div class="controls">
+      <label style="font-size:.88rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:.4rem;">
+        <input type="checkbox" id="chk-select-all" onchange="imgSelectAll(this.checked)"> Selecionar Tudo
+      </label>
+      <label style="font-size:.88rem;font-weight:700;display:flex;align-items:center;gap:.4rem;">
+        🖨️ DPI:
+        <select id="sel-dpi" style="font-size:.82rem;" onchange="setImgDpi(this.value)">
+          <option value="300">300 DPI</option>
+          <option value="600">600 DPI</option>
+          <option value="900" selected>900 DPI</option>
+        </select>
+      </label>
+      <label style="font-size:.88rem;font-weight:700;display:flex;align-items:center;gap:.4rem;">
+        ✂️ Sangria:
+        <select class="sel-bleed" style="font-size:.82rem;" onchange="setBleed(this.value)">
+          <option value="0">0mm / 0px</option>
+          <option value="3.048">3mm / 108px</option>
+          <option value="4" selected>4mm / 142px</option>
+          <option value="9.144">9mm / 324px</option>
+        </select>
+      </label>
+      <button class="btn btn-green" onclick="imgDownloadSelected()">⬇️ Baixar Selecionadas</button>
+      <span id="img-status" style="font-size:.82rem;color:#555;font-weight:700;"></span>
+    </div>
+    <div class="img-card-grid" id="img-card-grid"></div>
+  </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div id="img-lightbox" style="display:none;">
+  <div class="img-lb-bg" onclick="imgLbClose()"></div>
+  <div class="img-lb-box">
+    <div class="img-lb-toolbar">
+      <span id="img-lb-label" class="img-lb-label"></span>
+      <div class="img-lb-btns">
+        <button onclick="imgLbZoom(-0.25)" title="Menos zoom">−</button>
+        <span id="img-lb-zoom-pct">100%</span>
+        <button onclick="imgLbZoom(+0.25)" title="Mais zoom">+</button>
+        <button onclick="imgLbZoomFit()" title="Ajustar à tela">⊡</button>
+        <button id="img-lb-dl-btn" title="Baixar JPG">⬇️ JPG</button>
+        <button onclick="imgLbClose()" title="Fechar">✕</button>
+      </div>
+    </div>
+    <div class="img-lb-viewport" id="img-lb-viewport">
+      <div id="img-lb-wrap"></div>
+    </div>
+  </div>
 </div>
 
 <!-- MODAL -->
@@ -420,11 +509,11 @@ const DEFAULT_DATA = {
     {"id":9,"topico":"Jogos de mesa","palavras":["Xadrez","Banco Imobiliário","Uno","War","Dama","Dominó","Truco","Buraco","Stop","Pôker","Imagem & Ação","Caça-Palavras","Detetive","Palavras Cruzadas","Quem é Quem","Sudoku"]},
     {"id":10,"topico":"Brincadeiras de Infância","palavras":["Pular corda","Amarelinha","Esconde-esconde","Pega-pega","Bola de gude","Empinar Pipa","Queimada","Cabo de guerra","Vivo / Morto","Estátua","Batata quente","Dança das cadeiras","Passa anel","Telefone sem fio","Taco","Polícia e ladrão"]},
     {"id":11,"topico":"Gêneros Musicais","palavras":["Samba","Forró","Axé","Pagode","Funk","MPB","Sertanejo","Rock","Reggae","Rap","Hip Hop","Pop","Clássica","Dance","Jazz","Tango"]},
-    {"id":12,"topico":"Cantores Brasileiros","palavras":["Roberto Carlos","Ivete Sangalo","Anitta","Caetano Veloso","Gilberto Gil","Cazuza","Tim Maia","Sandy","Chitãozinho & Xororó","Jorge & Mateus","Rita Lee","Zeca Pagodinho","Silvio Santos","Djavan","Raul Seixas","Tony Ramos"]},
+    {"id":12,"topico":"Cantores Brasileiros","palavras":["Roberto Carlos","Ivete Sangalo","Anitta","Caetano Veloso","Gilberto Gil","Cazuza","Tim Maia","Sandy","Chitãozinho & Xororó","Jorge & Mateus","Rita Lee","Zeca Pagodinho","Lulu Santos","Djavan","Raul Seixas","Daniel"]},
     {"id":13,"topico":"Cantores Internacionais","palavras":["Michael Jackson","Taylor Swift","Shakira","Eminem","Lady Gaga","Britney Spears","Beyoncé","Avril Lavigne","Elton John","Celine Dion","Rihanna","Kenny G","Elvis Presley","Ricky Martin","Bon Jovi","Amy Winehouse"]},
     {"id":14,"topico":"Coisas numa Festa","palavras":["Bolo","Balão","Confete","Vela","Presente","Brigadeiro","Música","Dança","Refrigerante","Salgadinho","Parabéns","Convite","Decoração","Fogos","Brinde","Fotografia"]},
     {"id":15,"topico":"Filmes Brasileiros","palavras":["Cidade de Deus","Tropa de Elite","Carandiru","Central do Brasil","O Auto da Compadecida","Se Eu Fosse Você","Minha Mãe É uma Peça","Os Normais","Assalto ao Banco Central","O Menino Maluquinho","Tainá","Super Xuxa contra o Baixo Astral","Ensaio sobre a cegueira","Trapalhões","Bruna Surfistinha","Inspetor Faustão e o Mallandro"]},
-    {"id":16,"topico":"Shows Infantis","palavras":["Turma da Mônica","Pica-pau","Tom e Jerry","Scooby-Doo","Flintstones","Peppa Pig","Smurfs","Chaves","Pernalonga","Castelo Rá-tim-bum","O Mundo de Beakman","Os Jetsons","Popeye","Patrulha Canina","Power Rangers","O Show da Luna"]},
+    {"id":16,"topico":"Programas Infantis","palavras":["Turma da Mônica","Pica-pau","Tom e Jerry","Scooby-Doo","Flintstones","Peppa Pig","Smurfs","Chaves","Pernalonga","Castelo Rá-tim-bum","O Mundo de Beakman","Os Jetsons","Popeye","Patrulha Canina","Power Rangers","O Show da Luna"]},
     {"id":17,"topico":"Estados Brasileiros","palavras":["São Paulo","Rio de Janeiro","Bahia","Minas Gerais","Paraná","Rio Grande do Sul","Ceará","Goiás","Amazonas","Santa Catarina","Mato Grosso","Espírito Santo","Maranhão","Tocantins","Pernambuco","Sergipe"]},
     {"id":18,"topico":"Cidades","palavras":["New York","Las Vegas","Cancún","São Paulo","Rio de Janeiro","Paris","Amsterdã","Roma","Veneza","Tóquio","Dubai","Jerusalém","Sydney","Orlando","Buenos Aires","Dublin"]},
     {"id":19,"topico":"Coisas num Banheiro","palavras":["Shampoo","Sabonete","Escova de dentes","Pasta de dente","Toalha","Banheira","Espelho","Privada","Chuveiro","Tapete","Balança","Papel higiênico","Desodorante","Perfume","Secador","Pente"]},
@@ -475,22 +564,23 @@ const PAPER_SIZES = {
   'Legal':   { w:215.9, h:355.6 },
   'Tabloid': { w:279.4, h:431.8 },
 };
+let BLEED_MM = 4; // 4mm bleed on each side
 const CARD_PRESETS = {
-  '4x6in': { w:101.6,  h:152.4  },
+  '4x6in': { w:114.3,  h:165.1  },
   'poker':  { w:63.5,   h:88.9   },
   'tarot':  { w:69.85,  h:120.65 },
   'mini':   { w:50.8,   h:71.1   },
 };
-let PAPER_SIZE     = 'A4';
-let ORIENTATION    = 'portrait';
-let CARD_W_MM      = 101.6;
-let CARD_H_MM      = 152.4;
+let PAPER_SIZE     = 'Letter';
+let ORIENTATION    = 'landscape';
+let CARD_W_MM      = 114.3;
+let CARD_H_MM      = 165.1;
 let PAGE_MARGIN_MM = 8;
-let NUM_CODE_CARDS = 7;
+let NUM_CODE_CARDS = 1;
 let PRINT_FROM = 0;
-let PRINT_COUNT = null;  // null = all remaining
+let PRINT_COUNT = 1;
 let PRINT_CHAMELEON = true;
-let PRINT_MODE = 'fronts'; // 'fronts' | 'backs' | 'both'
+let PRINT_MODE = 'both'; // 'fronts' | 'backs' | 'both'
 
 const stored = localStorage.getItem('camaleao_brazuca');
 if (stored) { try { data = JSON.parse(stored); } catch(e) {} }
@@ -541,6 +631,7 @@ function switchTab(name) {
   if (name==='json') refreshJSONEditor();
   if (name==='imprimir') renderPreview();
   if (name==='regras') renderRulesForm();
+  if (name==='imagens') renderImagens();
 }
 
 /* ══════════════════════════════════════
@@ -787,17 +878,15 @@ function buildCodeCard(isChameleon) {
 
       if (!cellTL || !cellBR) return;
 
-      const wrapRect = wrap.getBoundingClientRect();
-      const tlRect  = cellTL.getBoundingClientRect();
-      const brRect  = cellBR.getBoundingClientRect();
-
+      // Use offsetTop/offsetLeft (layout coords, unaffected by CSS transforms)
+      // offsetParent of cells is d (card-base has position:relative)
       const overlay = document.createElement('div');
       overlay.style.cssText = `
         position:absolute;
-        top:${tlRect.top - wrapRect.top + wrap.offsetTop}px;
-        left:${tlRect.left - wrapRect.left + wrap.offsetLeft}px;
-        width:${brRect.right - tlRect.left}px;
-        height:${brRect.bottom - tlRect.top}px;
+        top:${cellTL.offsetTop}px;
+        left:${cellTL.offsetLeft}px;
+        width:${cellBR.offsetLeft + cellBR.offsetWidth - cellTL.offsetLeft}px;
+        height:${cellBR.offsetTop + cellBR.offsetHeight - cellTL.offsetTop}px;
         background:#0d2a0d;
         display:flex;align-items:center;justify-content:center;
         border-radius:3px;
@@ -821,6 +910,30 @@ function buildCodeCard(isChameleon) {
    - Código/Camaleão: verde escuro (mesmo de antes)
    Ambos com mesmo layout — harmônicos entre si
 ══════════════════════════════════════ */
+function buildBoxTop() {
+  const d = document.createElement('div');
+  d.className = 'card-base back-card';
+  d.innerHTML = `
+    <div class="back-bg"></div>
+    <div class="back-content">
+      <span class="back-emoji">🦎</span>
+      <div class="back-title">Camaleão<span class="hl">Brazuca</span></div>
+      <div class="back-dots">
+        <div class="back-dot y"></div><div class="back-dot"></div>
+        <div class="back-dot y"></div><div class="back-dot"></div>
+        <div class="back-dot y"></div>
+      </div>
+    </div>`;
+  return d;
+}
+
+function buildBoxBottom() {
+  const d = document.createElement('div');
+  d.className = 'card-base back-card';
+  d.innerHTML = `<div class="back-bg"></div>`;
+  return d;
+}
+
 function buildBackCard(type) {
   // type: 'topic' = azul bandeira | 'code' = verde escuro (padrão)
   const isBlue = (type === 'topic');
@@ -908,9 +1021,16 @@ function updatePrintStyles() {
   const root = document.documentElement.style;
   root.setProperty('--card-w', CARD_W_MM + 'mm');
   root.setProperty('--card-h', CARD_H_MM + 'mm');
-  root.setProperty('--cs', (CARD_W_MM / 63).toFixed(3));
+  root.setProperty('--bleed', BLEED_MM + 'mm');
+  root.setProperty('--cs', ((CARD_W_MM - BLEED_MM * 2) / 63).toFixed(3));
 }
 
+function setBleed(mm) {
+  BLEED_MM = parseFloat(mm);
+  document.querySelectorAll('.sel-bleed').forEach(s => s.value = mm);
+  updatePrintStyles();
+  renderPreview();
+}
 function setPaper(v)       { PAPER_SIZE = v; renderPreview(); }
 function setOrientation(v) { ORIENTATION = v; renderPreview(); }
 function setCardPreset(v) {
@@ -1022,19 +1142,254 @@ function renderPreview() {
   const needFronts = (PRINT_MODE === 'fronts' || PRINT_MODE === 'both');
   const needBacks  = (PRINT_MODE === 'backs'  || PRINT_MODE === 'both');
 
-  if (needFronts)
-    pages.forEach(p => grid.appendChild(makePrintPage(p, buildCardEl, cols, rows)));
-
-  // Back pages: columns mirrored so they align after flipping on short edge
-  if (needBacks)
-    pages.forEach(p => grid.appendChild(makePrintPage(mirrorColumns(p, cols), buildBackEl, cols, rows)));
+  // Interleave front/back per page so duplex printing works correctly
+  pages.forEach(p => {
+    if (needFronts) grid.appendChild(makePrintPage(p, buildCardEl, cols, rows));
+    if (needBacks)  grid.appendChild(makePrintPage(mirrorColumns(p, cols), buildBackEl, cols, rows));
+  });
 }
+
+/* ══════════════════════════════════════
+   IMAGES TAB
+══════════════════════════════════════ */
+function renderImagens() {
+  const grid = document.getElementById('img-card-grid');
+  grid.innerHTML = '';
+  document.getElementById('chk-select-all').checked = false;
+
+  const cardWPx = CARD_W_MM * 96 / 25.4;
+  const cardHPx = CARD_H_MM * 96 / 25.4;
+  const THUMB_W = 130;
+  const scale   = THUMB_W / cardWPx;
+  const THUMB_H = Math.round(cardHPx * scale);
+
+  const entries = [];
+
+  // Topic cards
+  data.cards.forEach((c, i) => {
+    const slug = c.topico.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+    entries.push({ buildFn: () => buildTopicCard(c, i), label: `#${c.id} ${c.topico}`, filename: `topico-${c.id}-${slug}.jpg` });
+  });
+
+  // Code & special cards
+  entries.push({ buildFn: () => buildCodeCard(false),    label: 'Código — Normal',    filename: 'codigo-normal.jpg' });
+  entries.push({ buildFn: () => buildCodeCard(true),     label: 'Código — Camaleão',  filename: 'codigo-camaleao.jpg' });
+  entries.push({ buildFn: () => buildRulesCard(),        label: 'Regras',             filename: 'regras.jpg' });
+  entries.push({ buildFn: () => buildBackCard('topic'),  label: 'Verso — Tópico',     filename: 'verso-topico.jpg' });
+  entries.push({ buildFn: () => buildBackCard('code'),   label: 'Verso — Código',     filename: 'verso-codigo.jpg' });
+  entries.push({ buildFn: () => buildBoxTop(),           label: 'Caixa — Topo',       filename: 'caixa-topo.jpg' });
+  entries.push({ buildFn: () => buildBoxBottom(),        label: 'Caixa — Fundo',      filename: 'caixa-fundo.jpg' });
+
+  entries.forEach((entry, idx) => {
+    const cardEl = entry.buildFn();
+    cardEl.classList.add('img-thumb-inner');
+    cardEl.style.transform = `scale(${scale})`;
+    cardEl.style.width  = cardWPx + 'px';
+    cardEl.style.height = cardHPx + 'px';
+
+    const outer = document.createElement('div');
+    outer.className = 'img-thumb-outer';
+    outer.style.width  = THUMB_W + 'px';
+    outer.style.height = THUMB_H + 'px';
+    outer.appendChild(cardEl);
+    outer.onclick = () => imgOpenLightbox(entry.buildFn, entry.label, entry.filename);
+
+    const chk = document.createElement('input');
+    chk.type = 'checkbox';
+    chk.className = 'img-card-chk';
+    chk.dataset.idx = idx;
+    chk.dataset.filename = entry.filename;
+    chk._buildFn = entry.buildFn;
+
+    const dlBtn = document.createElement('button');
+    dlBtn.className = 'btn btn-teal';
+    dlBtn.style.cssText = 'font-size:.72rem;padding:.25rem .6rem;';
+    dlBtn.textContent = '⬇️';
+    dlBtn.title = 'Baixar ' + entry.label;
+    dlBtn.onclick = () => imgDownloadOne(entry.buildFn, entry.filename);
+
+    const actions = document.createElement('div');
+    actions.className = 'img-card-actions';
+    actions.appendChild(chk);
+    actions.appendChild(dlBtn);
+
+    const lbl = document.createElement('label');
+    lbl.textContent = entry.label;
+
+    const item = document.createElement('div');
+    item.className = 'img-card-item';
+    item.dataset.idx = idx;
+    item.appendChild(outer);
+    item.appendChild(actions);
+    item.appendChild(lbl);
+
+    grid.appendChild(item);
+  });
+}
+
+function imgSelectAll(checked) {
+  document.querySelectorAll('.img-card-chk').forEach(c => c.checked = checked);
+}
+
+async function imgDownloadOne(buildFn, filename) {
+  const status = document.getElementById('img-status');
+  status.textContent = 'Gerando imagem…';
+  // Render a fresh card off-screen with no transform so html2canvas captures full size
+  const cardEl = buildFn();
+  cardEl.style.position = 'fixed';
+  cardEl.style.left = '-9999px';
+  cardEl.style.top = '0';
+  document.body.appendChild(cardEl);
+  try {
+    await document.fonts.ready;
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+    const canvas = await html2canvas(cardEl, { scale: IMG_DPI / 96, useCORS: true, logging: false });
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = filename;
+    a.click();
+    status.textContent = '';
+  } catch(e) {
+    status.textContent = 'Erro ao gerar imagem.';
+    console.error(e);
+  } finally {
+    document.body.removeChild(cardEl);
+  }
+}
+
+async function imgDownloadSelected() {
+  const checked = [...document.querySelectorAll('.img-card-chk:checked')];
+  if (!checked.length) { alert('Selecione ao menos uma carta.'); return; }
+
+  const status = document.getElementById('img-status');
+  status.textContent = `Gerando ${checked.length} imagem(ns)…`;
+
+  try {
+    await document.fonts.ready;
+    const zip = new JSZip();
+
+    for (let i = 0; i < checked.length; i++) {
+      const chk = checked[i];
+      status.textContent = `Gerando imagem ${i + 1} de ${checked.length}…`;
+      const cardEl = chk._buildFn();
+      cardEl.style.position = 'fixed';
+      cardEl.style.left = '-9999px';
+      cardEl.style.top = '0';
+      document.body.appendChild(cardEl);
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+      const canvas = await html2canvas(cardEl, { scale: IMG_DPI / 96, useCORS: true, logging: false });
+      document.body.removeChild(cardEl);
+      const base64 = canvas.toDataURL('image/jpeg', 0.92).split(',')[1];
+      zip.file(chk.dataset.filename, base64, { base64: true });
+    }
+
+    status.textContent = 'Comprimindo ZIP…';
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'cartas-camaleao-brazuca.zip';
+    a.click();
+    status.textContent = '';
+  } catch(e) {
+    status.textContent = 'Erro ao gerar ZIP.';
+    console.error(e);
+  }
+}
+
+/* ══════════════════════════════════════
+   LIGHTBOX
+══════════════════════════════════════ */
+let IMG_DPI = 900;
+function setImgDpi(v) {
+  IMG_DPI = parseInt(v);
+  updateBleedLabels();
+}
+
+function updateBleedLabels() {
+  document.querySelectorAll('.sel-bleed option').forEach(opt => {
+    const mm = parseFloat(opt.value);
+    const px = Math.round(mm / 25.4 * IMG_DPI);
+    opt.textContent = mm === 0 ? '0mm / 0px' : `${mm % 1 === 0 ? mm : Math.round(mm)}mm / ${px}px`;
+  });
+}
+
+let lbZoom = 1;
+let lbCardEl = null;
+let lbFilename = '';
+
+function imgOpenLightbox(buildFn, label, filename) {
+  lbFilename = filename;
+  const wrap = document.getElementById('img-lb-wrap');
+  wrap.innerHTML = '';
+
+  // Build a fresh card (no scale artifacts from thumbnail)
+  lbCardEl = buildFn();
+  lbCardEl.style.position = 'absolute';
+  lbCardEl.style.top = '0';
+  lbCardEl.style.left = '0';
+  lbCardEl.style.transformOrigin = 'top left';
+  wrap.appendChild(lbCardEl);
+
+  document.getElementById('img-lb-label').textContent = label;
+  document.getElementById('img-lb-dl-btn').onclick = () => imgDownloadOne(buildFn, filename);
+
+  document.getElementById('img-lightbox').style.display = 'flex';
+
+  // Wait for card to render (chameleon overlay uses rAF), then fit
+  requestAnimationFrame(() => requestAnimationFrame(() => imgLbZoomFit()));
+}
+
+function imgLbZoomFit() {
+  if (!lbCardEl) return;
+  const viewport = document.getElementById('img-lb-viewport');
+  const cardW = CARD_W_MM * 96 / 25.4;
+  const cardH = CARD_H_MM * 96 / 25.4;
+  const availW = viewport.clientWidth  - 48;
+  const availH = viewport.clientHeight - 48;
+  lbZoom = Math.min(availW / cardW, availH / cardH, 1);
+  imgLbApplyZoom();
+}
+
+function imgLbZoom(delta) {
+  lbZoom = Math.max(0.1, Math.min(5, lbZoom + delta));
+  imgLbApplyZoom();
+}
+
+function imgLbApplyZoom() {
+  if (!lbCardEl) return;
+  const cardW = CARD_W_MM * 96 / 25.4;
+  const cardH = CARD_H_MM * 96 / 25.4;
+  const wrap = document.getElementById('img-lb-wrap');
+  wrap.style.width  = Math.round(cardW * lbZoom) + 'px';
+  wrap.style.height = Math.round(cardH * lbZoom) + 'px';
+  lbCardEl.style.transform = `scale(${lbZoom})`;
+  document.getElementById('img-lb-zoom-pct').textContent = Math.round(lbZoom * 100) + '%';
+}
+
+function imgLbClose() {
+  document.getElementById('img-lightbox').style.display = 'none';
+  document.getElementById('img-lb-wrap').innerHTML = '';
+  lbCardEl = null;
+}
+
+// Mouse wheel zoom on lightbox viewport
+document.getElementById('img-lb-viewport').addEventListener('wheel', e => {
+  e.preventDefault();
+  imgLbZoom(e.deltaY < 0 ? 0.15 : -0.15);
+}, { passive: false });
+
+// Escape to close lightbox
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') imgLbClose();
+});
 
 /* ══════════════════════════════════════
    INIT
 ══════════════════════════════════════ */
 function render() { renderCardList(); }
 render();
+updateBleedLabels();
 </script>
 </body>
 </html>
