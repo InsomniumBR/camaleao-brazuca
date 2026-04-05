@@ -49,7 +49,7 @@ Após imprimir o relevo e a tampa:
 
 1. Limpe e prepare a superfície da tampa.  
 2. Aplique **cola Super Bonder** (cianoacrilato) na parte traseira do relevo.  
-3. Posicione o relevo alinhado ao contorno indicado.  
+3. Posicione o relevo alinhado no centro da tampa.  
 4. Pressione por alguns segundos até fixar completamente.
 
 Essa abordagem garante melhor acabamento, evita marcas de suporte e mantém a estética original.
@@ -69,7 +69,7 @@ Os arquivos 3MF podem ser abertos diretamente nos principais slicers:
 1. Abra o slicer de sua preferência.  
 2. Arraste o arquivo `.3mf` para a área de trabalho ou use **Arquivo → Abrir**.  
 3. O modelo será carregado com suas **cores sugeridas**.  
-4. Escolha o perfil da sua impressora e material.  
+4. Escolha o perfil da sua impressora e do material.  
 5. Verifique que **suportes estão desativados** (não são necessários).  
 6. Clique em **Fatiar** e envie para a impressora.
 
